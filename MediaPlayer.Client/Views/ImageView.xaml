@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:MediaPlayer.Client.Converters;assembly=MediaPlayer.Client"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+             x:Class="MediaPlayer.Client.Views.ImageView">
+
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="10, Auto, *, Auto, 10">
+    <Grid.Resources>
+      <local:BitmapValueConverter x:Key="bitmapConverter"/>
+      <local:IntToStringConverter x:Key="intConverter"/>
+    </Grid.Resources>
+    <DockPanel Name="MainPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
+      <Image Name="img"
+              Source="{Binding ImagePath, Converter={StaticResource bitmapConverter}}"
+              Stretch="Uniform"/>
+    </DockPanel>
+    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="0" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Prev}"/>
+    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="4" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Next}"/>
+    <WrapPanel DockPanel.Dock="Bottom" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+      <!-- <Border CornerRadius="0.5" Background="Black">
+        <Border.DataTemplates>
+        <DataTemplate> -->
+        <TextBlock Text="{Binding currentIndex, Converter={StaticResource intConverter}}" Background="Black" Foreground="White" Opacity="0.6"/>
+        <!-- </DataTemplate>
+        <DataTemplate> -->
+        <TextBlock Text="/" Background="Black" Foreground="White" Opacity="0.6"/>
+        <!-- </DataTemplate>
+        <DataTemplate> -->
+        <TextBlock Text="{Binding LastPage, Mode=OneTime}" Background="Black" Foreground="White" Opacity="0.6"/>
+        <!-- </DataTemplate>
+        </Border.DataTemplates>
+      </Border> -->
+    </WrapPanel>
+  </Grid>
+</UserControl>

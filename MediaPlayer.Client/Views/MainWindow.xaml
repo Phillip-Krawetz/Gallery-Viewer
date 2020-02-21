@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="960" Height="540"
+        x:Class="MediaPlayer.Client.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="MediaPlayer"
+        Name="parentWindow">
+
+  <Window.KeyBindings>
+    <KeyBinding Gesture="{Binding PrevKey}" Command="{Binding Prev}"/>
+    <KeyBinding Gesture="{Binding NextKey}" Command="{Binding Next}"/>
+  </Window.KeyBindings>
+  <Grid RowDefinitions="Auto,*">
+    <WrapPanel Grid.Row="0">
+      <Button Name="BackButton">Back</Button>
+    </WrapPanel>
+    <UserControl Name="MainContent" Grid.Row="1" PropertyChanged="ContentChangeHandler" Content="{Binding Content}"/>
+  </Grid>
+
+</Window>
