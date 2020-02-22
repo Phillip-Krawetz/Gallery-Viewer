@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.IO;
 using MediaPlayer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +21,6 @@ namespace MediaPlayer.Storing
     protected override void OnModelCreating(ModelBuilder builder)
     {
       builder.Entity<DirectoryTag>().HasKey(x => new {x.DirectoryItemId, x.TagId});
-     // builder.Entity<DirectoryTag>().HasOne(x => x.DirectoryItem).WithMany(x => x.Tags).HasForeignKey(x => x.TagId);
-      //builder.Entity<DirectoryTag>().HasOne(x => x.Tag).WithMany(x => x.DirectoryItems).HasForeignKey(x => x.DirectoryItemId);
     }
 
     public MediaPlayerDbContext()
