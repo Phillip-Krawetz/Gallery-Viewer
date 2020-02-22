@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Input;
+using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
 namespace MediaPlayer.Client.ViewModels
@@ -14,6 +15,8 @@ namespace MediaPlayer.Client.ViewModels
 
     public MainWindowViewModel(){
       Content = new HomeMenuViewModel();
+      TagRepository.Initialize();
+      DirectoryRepository.Initialize();
     }
 
     public ViewModelBase Content
