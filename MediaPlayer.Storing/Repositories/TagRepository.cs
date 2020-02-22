@@ -2,23 +2,32 @@ using System.Collections.Generic;
 using MediaPlayer.Domain.Models;
 using System.Linq;
 using MediaPlayer.Storing.Connectors;
+using System.Collections.Concurrent;
 
 namespace MediaPlayer.Storing.Repositories
 {
   public class TagRepository
   {
-    private SqlConnector connector = new SqlConnector();
+    private static SqlConnector connector = new SqlConnector();
 
-    private static List<Tag> tags;
+    private static ConcurrentBag<Tag> tags;
 
     public static List<Tag> Tags 
     { 
-      get => tags;
+      get => tags.ToList();
     }
 
     public TagRepository()
     {
-      tags = connector.GetTable<Tag>();
+      Initialize();
+    }
+
+    public static void Initialize()
+    {
+      if(tags == null)
+      {
+        tags = new ConcurrentBag<Tag>(connector.GetTable<Tag>());
+      }
     }
 
     public void AddTag(string tag)

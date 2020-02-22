@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace MediaPlayer.Storing.Repositories
 {
   public class DirectoryRepository
   {
-    private SqlConnector connector = new SqlConnector();
-    private static List<DirectoryItem> directories;
-    public List<DirectoryItem> Directories { get => directories; }
+    private static SqlConnector connector = new SqlConnector();
+    private static ConcurrentBag<DirectoryItem> directories;
+    public List<DirectoryItem> Directories { get => directories.OrderBy(x => x.FolderPath).ToList(); }
 
     public DirectoryItem GetOrNew(string path)
     {
@@ -24,8 +25,7 @@ namespace MediaPlayer.Storing.Repositories
       {
         return directories.First(x => x.FolderPath == path);
       }
-      var d = new DirectoryItem{FolderPath = path};
-      connector.AddItem<DirectoryItem>(d);
+      var d = NewDirectory(path);
       return d;
     }
 
@@ -88,32 +88,39 @@ namespace MediaPlayer.Storing.Repositories
       return new Bitmap(ImageUtils.ThumbnailCachePath(name));
     }
 
-    private Task<DirectoryItem> CheckDirectory(string item)
+    private DirectoryItem NewDirectory(string path)
     {
-      System.Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
       var temp = new DirectoryItem();
       try
       {
         var myFiles = Directory
-          .EnumerateFiles(item, "*.*", SearchOption.TopDirectoryOnly)
+          .EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
           .Where(s => FileTypes.ValidImageTypes.Contains(Path.GetExtension(s).ToLowerInvariant())).ToList();
         if(myFiles.Count() > 0)
         {
-          temp = GetOrNew(item);
+          temp = new DirectoryItem(){FolderPath = path};
           temp.StartPath = myFiles[0];
 
           temp.ThumbPath = CreateThumb(temp.Name, temp.StartPath);
+          directories.Add(temp);
+          connector.AddItem<DirectoryItem>(temp);
         }
       }
-      catch(UnauthorizedAccessException)
+      catch(UnauthorizedAccessException){}
+      return temp;
+    }
+
+    public static void Initialize()
+    {
+      if(directories == null)
       {
+        directories = new ConcurrentBag<DirectoryItem>(connector.GetTable<DirectoryItem>());
       }
-      return Task.FromResult(temp);
     }
 
     public DirectoryRepository()
     {
-      directories = connector.GetTable<DirectoryItem>();
+      Initialize();
       MapTags();
       GetThumbs();
     }
