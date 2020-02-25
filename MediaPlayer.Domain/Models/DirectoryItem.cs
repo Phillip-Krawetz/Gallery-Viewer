@@ -28,7 +28,6 @@ namespace MediaPlayer.Domain.Models
         Wrapping = TextWrapping.Wrap
       };
     }
-    public string Author { get; set; }
     [NotMapped]
     public ObservableCollection<Tag> Tags 
     { 
@@ -38,7 +37,6 @@ namespace MediaPlayer.Domain.Models
 
     public DirectoryItem()
     {
-      Author = "None";
       Tags = new ObservableCollection<Tag>();
     }
   }
