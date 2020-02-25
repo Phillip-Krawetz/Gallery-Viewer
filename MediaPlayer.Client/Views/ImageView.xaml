@@ -19,19 +19,17 @@
     <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="0" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Prev}"/>
     <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="4" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Next}"/>
     <WrapPanel DockPanel.Dock="Bottom" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
-      <!-- <Border CornerRadius="0.5" Background="Black">
-        <Border.DataTemplates>
-        <DataTemplate> -->
-        <TextBlock Text="{Binding currentIndex, Converter={StaticResource intConverter}}" Background="Black" Foreground="White" Opacity="0.6"/>
-        <!-- </DataTemplate>
-        <DataTemplate> -->
-        <TextBlock Text="/" Background="Black" Foreground="White" Opacity="0.6"/>
-        <!-- </DataTemplate>
-        <DataTemplate> -->
-        <TextBlock Text="{Binding LastPage, Mode=OneTime}" Background="Black" Foreground="White" Opacity="0.6"/>
-        <!-- </DataTemplate>
-        </Border.DataTemplates>
-      </Border> -->
+      <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Opacity="0.6"
+              PointerPressed="OpenPageSelect">
+        <WrapPanel>
+          <TextBlock Text="{Binding currentIndex, Converter={StaticResource intConverter}}" Foreground="White"/>
+          <TextBlock Text="/" Foreground="White"/>
+          <TextBlock Text="{Binding LastPage, Mode=OneTime}" Foreground="White"/>
+        </WrapPanel>
+      </Border>
+      <Popup Name="Popup" StaysOpen="False" PlacementMode="Top" Width="65" Height="200">
+        <ListBox Items="{Binding FileIndexes}" SelectionChanged="PageSelection"/>
+      </Popup>
     </WrapPanel>
   </Grid>
 </UserControl>

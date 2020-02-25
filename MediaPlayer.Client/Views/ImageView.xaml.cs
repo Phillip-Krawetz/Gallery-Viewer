@@ -1,8 +1,11 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using MediaPlayer.Client.ViewModels;
 
 namespace MediaPlayer.Client.Views
 {
@@ -45,6 +48,27 @@ namespace MediaPlayer.Client.Views
         }
       }
       args.Handled = true;
+    }
+
+    public void OpenPageSelect(object sender, PointerPressedEventArgs args)
+    {
+      var s = (Border)sender;
+      if(s != null)
+      {
+        var popup = this.FindControl<Popup>("Popup");
+        popup.Open();
+      }
+    }
+
+    public void PageSelection(object sender, SelectionChangedEventArgs args)
+    {
+      var popup = this.FindControl<Popup>("Popup");
+      popup.Close();
+      var dc = this.DataContext as ImageViewModel;
+      if(dc != null)
+      {
+        dc.JumpToPage(Convert.ToInt32(args.AddedItems[0]));
+      }
     }
   }
 }

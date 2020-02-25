@@ -26,6 +26,11 @@ namespace MediaPlayer.Client.ViewModels
 
     private List<string> myFiles = new List<string>();
 
+    public List<int> FileIndexes
+    { 
+      get => Enumerable.Range(1, myFiles.Count).ToList();
+    }
+
     int _index;
 
     public int currentIndex 
@@ -45,12 +50,21 @@ namespace MediaPlayer.Client.ViewModels
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
       
       myFiles = Directory
-      .EnumerateFiles(dir, "*.*", SearchOption.AllDirectories)
+      .EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
       .Where(s => FileTypes.ValidImageTypes.Contains(Path.GetExtension(s).ToLowerInvariant())).ToList();
 
       currentIndex = myFiles.FindIndex(x => x == ImagePath);
 
       System.Console.WriteLine(dir);
+    }
+
+    public void JumpToPage(int page)
+    {
+      if(page >= 0 && page <= myFiles.Count)
+      {
+        currentIndex = page - 1;
+        this.ImagePath = myFiles[page - 1];
+      }
     }
 
 
@@ -71,9 +85,5 @@ namespace MediaPlayer.Client.ViewModels
       }
       this.ImagePath = myFiles[currentIndex];
     }
-
-    public void Back()
-    {}
-
   }
 }
