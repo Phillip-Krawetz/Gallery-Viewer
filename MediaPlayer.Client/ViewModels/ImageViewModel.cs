@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -48,14 +50,24 @@ namespace MediaPlayer.Client.ViewModels
       this.ImagePath = ImagePath;      
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
-      
-      myFiles = Directory
-      .EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
-      .Where(s => FileTypes.ValidImageTypes.Contains(Path.GetExtension(s).ToLowerInvariant())).ToList();
+
+      var iterate = IterateFiles(dir);
 
       currentIndex = myFiles.FindIndex(x => x == ImagePath);
 
       System.Console.WriteLine(dir);
+    }
+
+    public async Task IterateFiles(string dir)
+    {
+      foreach(var item in Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly))
+      {
+        if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(item).ToLowerInvariant()))
+        {
+          myFiles.Add(item);
+        }
+      }
+      await Task.Yield();
     }
 
     public void JumpToPage(int page)
