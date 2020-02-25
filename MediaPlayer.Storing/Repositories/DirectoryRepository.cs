@@ -93,17 +93,19 @@ namespace MediaPlayer.Storing.Repositories
       var temp = new DirectoryItem();
       try
       {
-        var myFiles = Directory
-          .EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
-          .Where(s => FileTypes.ValidImageTypes.Contains(Path.GetExtension(s).ToLowerInvariant())).ToList();
-        if(myFiles.Count() > 0)
+        foreach(var file in Directory
+          .EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly))
         {
-          temp = new DirectoryItem(){FolderPath = path};
-          temp.StartPath = myFiles[0];
+          if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(file).ToLowerInvariant()))
+          {
+            temp = new DirectoryItem(){FolderPath = path};
+            temp.StartPath = file;
 
-          temp.ThumbPath = CreateThumb(temp.Name, temp.StartPath);
-          directories.Add(temp);
-          connector.AddItem<DirectoryItem>(temp);
+            temp.ThumbPath = CreateThumb(temp.Name, temp.StartPath);
+            directories.Add(temp);
+            connector.AddItem<DirectoryItem>(temp);
+            break;
+          }
         }
       }
       catch(UnauthorizedAccessException){}
