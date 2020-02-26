@@ -26,12 +26,12 @@ namespace MediaPlayer.Client.Views
 
     public void HoverHandler(object sender, PointerEventArgs args)
     {
-      if(sender.GetType() == typeof(Button))
+      var obj = sender as Visual;
+      if(obj != null)
       {
-        var o = (Button)sender;
-        if(o.Opacity < 1)
+        if(obj.Opacity < 1)
         {
-          o.Opacity = 0.8;
+          obj.Opacity = 1;
         }
       }
       args.Handled = true;
@@ -39,12 +39,12 @@ namespace MediaPlayer.Client.Views
 
     public void DehoverHandler(object sender, PointerEventArgs args)
     {
-      if(sender.GetType() == typeof(Button))
+      var obj = sender as Visual;
+      if(obj != null)
       {
-        var o = (Button)sender;
-        if(o.Opacity != 0.2)
+        if(obj.Opacity != 0)
         {
-          o.Opacity = 0.2;
+          obj.Opacity = 0;
         }
       }
       args.Handled = true;

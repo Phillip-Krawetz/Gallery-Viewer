@@ -10,14 +10,24 @@
     <Grid.Resources>
       <local:BitmapValueConverter x:Key="bitmapConverter"/>
       <local:IntToStringConverter x:Key="intConverter"/>
+      <local:PathToNameConverter x:Key="pathConverter"/>
     </Grid.Resources>
     <DockPanel Name="MainPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
       <Image Name="img"
               Source="{Binding ImagePath, Converter={StaticResource bitmapConverter}}"
               Stretch="Uniform"/>
     </DockPanel>
-    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="0" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Prev}"/>
-    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="4" Grid.RowSpan="3" Opacity="0.2" Command="{Binding Next}"/>
+    <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Opacity="1"
+            PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Row="0" Grid.Column="1" 
+            Grid.ColumnSpan="3" HorizontalAlignment="Center">
+      <Border.Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.25"/>
+      </Border.Transitions>
+      <TextBlock Text="{Binding ImagePath, Converter={StaticResource pathConverter}}" Foreground="White"
+                  HorizontalAlignment="Center"/>
+    </Border>
+    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="0" Grid.RowSpan="3" Opacity="0" Command="{Binding Prev}"/>
+    <Button Grid.Row="0" PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Column="4" Grid.RowSpan="3" Opacity="0" Command="{Binding Next}"/>
     <WrapPanel DockPanel.Dock="Bottom" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
       <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Opacity="0.6"
               PointerPressed="OpenPageSelect">
