@@ -10,7 +10,7 @@
       <local:BitmapValueConverter x:Key="bitmapConverter"/>
     </DockPanel.Resources>
     <Button DockPanel.Dock="Bottom" Command="{Binding ChangeDirectory}">Change Directory</Button> 
-    <ScrollViewer>
+    <ScrollViewer Name="DirectoryScroll" PropertyChanged="SetOffset">
     <DataGrid Name="DirectoryGrid" Items="{Binding Items}" CellPointerPressed="SelectionHandler"
               CanUserReorderColumns="True" CanUserSortColumns="True" CanUserResizeColumns="True">
       <DataGrid.Columns>
