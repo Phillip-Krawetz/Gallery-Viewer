@@ -47,7 +47,7 @@ namespace MediaPlayer.Storing.Repositories
           TagId = tag.Id,
           DirectoryItemId = item.Id,
         };
-        item.Tags.Add(tag);
+        item.AddTag(tag);
         connector.AddItem<DirectoryTag>(dT);
       }
     }
@@ -60,7 +60,7 @@ namespace MediaPlayer.Storing.Repositories
         var a = directories.Where(x => x.Id == item.DirectoryItemId);
         foreach(var subitem in a)
         {
-          subitem.Tags.Add(TagRepository.Tags.First(x => x.Id == item.TagId));
+          subitem.AddTag(TagRepository.Tags.First(x => x.Id == item.TagId));
         }
       }
     }

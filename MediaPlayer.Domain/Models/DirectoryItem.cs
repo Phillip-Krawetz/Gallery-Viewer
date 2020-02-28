@@ -28,16 +28,32 @@ namespace MediaPlayer.Domain.Models
         Wrapping = TextWrapping.Wrap
       };
     }
+    private ObservableCollection<Tag> tags;
     [NotMapped]
     public ObservableCollection<Tag> Tags 
     { 
-      get;
-      set; 
+      get => tags;
+      set => tags = value;
+    }
+
+    public void AddTag(Tag tag)
+    {
+      tags.Add(tag);
+      for(int i = 0; i < tags.Count; i++)
+      {
+        for(int j = 0; j < tags.Count - 1; j++)
+        {
+          if(tags[j].Name.CompareTo(tags[j + 1].Name) > 0)
+          {
+            tags.Move(j, j+1);
+          }
+        }
+      }
     }
 
     public DirectoryItem()
     {
-      Tags = new ObservableCollection<Tag>();
+      tags = new ObservableCollection<Tag>();
     }
   }
 }
