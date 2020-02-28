@@ -25,10 +25,28 @@ namespace MediaPlayer.Client.ViewModels
   public class DirectoryViewModel : ViewModelBase
   {
     private ObservableCollection<DirectoryItem> items;
+    private ObservableCollection<Tag> filters;
     public ObservableCollection<DirectoryItem> Items 
     { 
-      get => items;
+      get
+      {
+        if(filters.Count < 1)
+        {
+          return items;
+        }
+        return new ObservableCollection<DirectoryItem>(items.Where(x => x.Tags.Any(y => filters.Contains(y))));
+      }
       set => this.RaiseAndSetIfChanged(ref items, value); 
+    }
+    public ObservableCollection<Tag> Filters 
+    { 
+      get => filters;
+      set => this.RaiseAndSetIfChanged(ref filters, value);
+    }
+
+    public ObservableCollection<Tag> TagList
+    { 
+      get => new ObservableCollection<Tag>(TagRepository.Tags);
     }
 
     private TagRepository tagRepo = new TagRepository();
@@ -38,6 +56,22 @@ namespace MediaPlayer.Client.ViewModels
 
     public DirectoryViewModel(){
       Items = new ObservableCollection<DirectoryItem>(directoryRepo.Directories.OrderBy(x => x.FolderPath));
+      filters = new ObservableCollection<Tag>();
+    }
+
+    public void AddFilter(Tag tag)
+    {
+      Filters.Add(tag);
+      this.RaisePropertyChanged("Items");
+    }
+
+    public void RemoveFilter(Tag tag)
+    {
+      if(Filters.Contains(tag))
+      {
+        Filters.Remove(tag);
+        this.RaisePropertyChanged("Items");
+      }
     }
 
     public void SetDirectoryAsync(string directory){

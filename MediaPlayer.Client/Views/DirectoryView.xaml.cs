@@ -44,6 +44,9 @@ namespace MediaPlayer.Client.Views
 
     private void TagHandler(object sender, PointerPressedEventArgs args)
     {
+      var dc = this.DataContext as DirectoryViewModel;
+      var tag = (sender as StyledElement).DataContext;
+      dc.AddFilter(tag as Tag);
     }
 
     private void TagHover(object sender, PointerEventArgs args)
@@ -68,6 +71,12 @@ namespace MediaPlayer.Client.Views
       vm.AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
       textBox.Text = "";
       args.Handled = true;
+    }
+
+    private void RemoveFilter(object sender, PointerPressedEventArgs args)
+    {
+      var dc = this.DataContext as DirectoryViewModel;
+      dc.RemoveFilter((sender as StyledElement).DataContext as Tag);
     }
 
     private void SelectionHandler(object sender, DataGridCellPointerPressedEventArgs args)

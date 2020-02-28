@@ -9,6 +9,18 @@
     <DockPanel.Resources>
       <local:BitmapValueConverter x:Key="bitmapConverter"/>
     </DockPanel.Resources>
+    <StackPanel Name="FilterList" DockPanel.Dock="Right" Width="100" Background="DarkSlateGray">
+      <TextBlock Text="Filters:"/>
+      <ScrollViewer>
+        <ListBox Items="{Binding Filters}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}" PointerPressed="RemoveFilter"/>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </ScrollViewer>
+    </StackPanel>
     <Button DockPanel.Dock="Bottom" Command="{Binding ChangeDirectory}">Change Directory</Button> 
     <ScrollViewer Name="DirectoryScroll" PropertyChanged="SetOffset">
     <DataGrid Name="DirectoryGrid" Items="{Binding Items}" CellPointerPressed="SelectionHandler"
