@@ -10,6 +10,8 @@ namespace MediaPlayer.Storing.Repositories
   {
     private static SqlConnector connector = new SqlConnector();
 
+    private CategoryRepository categoryRepository = new CategoryRepository();
+
     private static ConcurrentBag<Tag> tags;
 
     public static List<Tag> Tags 
@@ -27,6 +29,20 @@ namespace MediaPlayer.Storing.Repositories
       if(tags == null)
       {
         tags = new ConcurrentBag<Tag>(connector.GetTable<Tag>());
+        MapCategories();
+      }
+    }
+
+    public static void MapCategories()
+    {
+      var cats = connector.GetTable<Category>();
+      foreach(var item in cats)
+      {
+        var a = tags.Where(x => x.CategoryId == item.Id);
+        foreach(var subitem in a)
+        {
+          subitem.Category = item;
+        }
       }
     }
 
@@ -34,7 +50,7 @@ namespace MediaPlayer.Storing.Repositories
     {
       if(!TagExists(tag) && tag != "")
       {
-        tags.Add(new Tag{Name = tag});
+        tags.Add(new Tag{Name = tag, Category = categoryRepository.Default});
       }
     }
 
@@ -44,9 +60,9 @@ namespace MediaPlayer.Storing.Repositories
       {
         return tags.First(x => x.Name == tag);
       }
-      var t = new Tag{Name = tag};
+      var t = new Tag{Name = tag, Category = categoryRepository.Default};
       tags.Add(t);
-      connector.AddItem<Tag>(t);
+      connector.UpdateItem<Tag>(t);
       return t;
     }
 

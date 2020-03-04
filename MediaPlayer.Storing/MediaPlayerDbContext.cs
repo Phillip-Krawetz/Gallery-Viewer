@@ -10,6 +10,7 @@ namespace MediaPlayer.Storing
     public DbSet<Tag> Tags { get; set; }
     public DbSet<DirectoryItem> Directories { get; set; }
     public DbSet<DirectoryTag> DirectoryTags { get; set; }
+    public DbSet<Category> Categories { get; set; }
     private static string directoryPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\")) + "Cache\\";
     private static string dbPath = directoryPath + "MediaPlayer.db";
 
