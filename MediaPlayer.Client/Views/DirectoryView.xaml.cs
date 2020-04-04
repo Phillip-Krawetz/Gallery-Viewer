@@ -8,6 +8,7 @@ using MediaPlayer.Domain.Models;
 using MediaPlayer.Client.ViewModels;
 using System.IO;
 using System;
+using Avalonia.Media;
 
 namespace MediaPlayer.Client.Views
 {
@@ -46,7 +47,31 @@ namespace MediaPlayer.Client.Views
     {
       var dc = this.DataContext as DirectoryViewModel;
       var tag = (sender as StyledElement).DataContext;
-      dc.AddFilter(tag as Tag);
+      switch(args.GetCurrentPoint(null).Properties.PointerUpdateKind)
+      {
+        case(PointerUpdateKind.LeftButtonPressed):
+          dc.AddFilter(tag as Tag);
+          break;
+
+        case(PointerUpdateKind.RightButtonPressed):
+          var popup = this.FindControl<Popup>("Popup");
+          popup.PlacementTarget = sender as Control;
+          popup.Open();
+          break;
+      }
+    }
+
+    private void TagRemove(object sender, PointerPressedEventArgs args)
+    {
+      var popup = (sender as TextBlock).Parent.Parent as Popup;
+      if(popup != null)
+      {
+        var di = (popup.PlacementTarget as TextBlock).Parent.Parent.DataContext as DirectoryItem;
+        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
+        var vm = this.DataContext as DirectoryViewModel;
+        vm.RemoveTag(di, tag);
+        popup.Close();
+      }
     }
 
     private void TagHover(object sender, PointerEventArgs args)

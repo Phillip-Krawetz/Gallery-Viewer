@@ -125,6 +125,11 @@ namespace MediaPlayer.Client.ViewModels
       }
     }
 
+    public void RemoveTag(DirectoryItem item, Tag tag)
+    {
+      directoryRepo.RemoveTag(item, tag);
+    }
+
     public async void ChangeDirectory()
     {
       var select = new OpenFolderDialog();

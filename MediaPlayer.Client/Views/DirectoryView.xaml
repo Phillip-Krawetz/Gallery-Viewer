@@ -54,6 +54,7 @@
                                   PointerEnter="TagHover"
                                   PointerLeave="TagUnhover"
                                   PointerPressed="TagHandler"
+                                  Foreground="{Binding Category.Color}"
                                   Margin="2"/>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
@@ -73,6 +74,12 @@
       </DataGrid.Columns>
     </DataGrid>
     </ScrollViewer>
+    <Popup Name="Popup" StaysOpen="False">
+      <StackPanel Margin="5" Spacing="5">
+        <TextBlock Text="Edit" Foreground="White" HorizontalAlignment="Center"/>
+        <TextBlock Text="Remove" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagRemove"/>
+      </StackPanel>
+    </Popup>
   </DockPanel>
     
 </UserControl>
