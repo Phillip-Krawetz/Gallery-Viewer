@@ -52,6 +52,15 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
+    public void RemoveTag(DirectoryItem item, Tag tag)
+    {
+      if(item != null && tag != null)
+      {
+        item.Tags.Remove(tag);
+        connector.RemoveItem<DirectoryTag>(new DirectoryTag(){DirectoryItemId = item.Id, TagId = tag.Id});
+      }
+    }
+
     private void MapTags()
     {
       var tags = connector.GetTable<DirectoryTag>();

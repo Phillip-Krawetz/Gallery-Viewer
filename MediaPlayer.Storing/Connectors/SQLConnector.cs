@@ -25,6 +25,15 @@ namespace MediaPlayer.Storing.Connectors
       }
     }
 
+    public void RemoveItem<T>(object item) where T : class
+    {
+      using(var db = new MediaPlayerDbContext())
+      {
+        db.Remove(item as T);
+        db.SaveChanges();
+      }
+    }
+
     public List<T> GetTable<T>() where T : class
     {
       using(var db = new MediaPlayerDbContext())
