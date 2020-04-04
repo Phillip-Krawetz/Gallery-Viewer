@@ -11,8 +11,9 @@
     <KeyBinding Gesture="{Binding NextKey}" Command="{Binding Next}"/>
   </Window.KeyBindings>
   <Grid RowDefinitions="Auto,*">
-    <WrapPanel Grid.Row="0">
+    <WrapPanel Name="MenuBar" Grid.Row="0" PointerEnter="OpenMenuBar" PointerLeave="CloseMenuBar" Height="10">
       <Button Name="BackButton">Back</Button>
+      <Button Name="CategoryButton">Categories</Button>
     </WrapPanel>
     <UserControl Name="MainContent" Grid.Row="1" PropertyChanged="ContentChangeHandler" Content="{Binding Content}"/>
   </Grid>

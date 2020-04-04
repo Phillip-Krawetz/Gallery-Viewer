@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.ViewModels;
 
@@ -16,7 +17,13 @@ namespace MediaPlayer.Client.Views
             {
               this.BackButtonPress();
             };
+            var categoryButton = this.Find<Button>("CategoryButton");
+            categoryButton.Click += delegate
+            {
+              (this.DataContext as MainWindowViewModel).Content = new CategoryViewModel();
+            };
             mainContent = this.Find<UserControl>("MainContent");
+            menuBar = this.Find<WrapPanel>("MenuBar");
         }
 
         private void InitializeComponent()
@@ -36,6 +43,8 @@ namespace MediaPlayer.Client.Views
 
         private UserControl mainContent;
 
+        private WrapPanel menuBar;
+
         private static int currentPage = -1;
 
         private static List<object> oldContent = new List<object>();
@@ -43,6 +52,28 @@ namespace MediaPlayer.Client.Views
         public static List<object> OldContent
         {
           get => oldContent;
+        }
+
+        private void OpenMenuBar(object sender, PointerEventArgs args)
+        {
+          var obj = sender as WrapPanel;
+          if(obj != null)
+          {
+            obj.Height = 30;
+            obj.ItemHeight = 30;
+          }
+          args.Handled = true;
+        }
+
+        private void CloseMenuBar(object sender, PointerEventArgs args)
+        {
+          var obj = sender as WrapPanel;
+          if(obj != null)
+          {
+            obj.ItemHeight = 10;
+            obj.Height = 10;
+          }
+          args.Handled = true;
         }
 
         public void ContentChangeHandler(object sender, AvaloniaPropertyChangedEventArgs e)

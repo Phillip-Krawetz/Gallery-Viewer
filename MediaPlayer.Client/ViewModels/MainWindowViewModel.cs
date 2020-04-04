@@ -17,6 +17,7 @@ namespace MediaPlayer.Client.ViewModels
       Content = new HomeMenuViewModel();
       TagRepository.Initialize();
       DirectoryRepository.Initialize();
+      CategoryRepository.Initialize();
     }
 
     public ViewModelBase Content
