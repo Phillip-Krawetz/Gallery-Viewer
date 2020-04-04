@@ -34,7 +34,7 @@ namespace MediaPlayer.Storing.Repositories
       Initialize();
     }
 
-    public void Initialize()
+    public static void Initialize()
     {
       if(categories == null)
       {
