@@ -37,8 +37,8 @@
         </DataGridTemplateColumn>
         <DataGridTextColumn Header="Name"
                             Binding="{Binding Name}"
-                            Width="Auto"/>
-        <DataGridTemplateColumn Header="Tags" Width="500">
+                            Width="450"/>
+        <DataGridTemplateColumn Header="Tags" Width="300">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <StackPanel VerticalAlignment="Center">
