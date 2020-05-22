@@ -14,12 +14,16 @@ namespace MediaPlayer.Client.Views
 {
   public class DirectoryView : UserControl
   {
-    private ScrollViewer scroll;
-    private static Vector position;
+    private DataGrid grid;
+    private static object lastObject;
+    private DockPanel control;
     public DirectoryView()
     {
       InitializeComponent();
-      scroll = this.FindControl<ScrollViewer>("DirectoryScroll");
+      grid = this.FindControl<DataGrid>("DirectoryGrid");
+      grid.PropertyChanged += SetOffset;
+      control = this.FindControl<DockPanel>("MainPanel");
+      control.PropertyChanged += SetGridHeight;
     }
 
     private void InitializeComponent()
@@ -27,19 +31,23 @@ namespace MediaPlayer.Client.Views
       AvaloniaXamlLoader.Load(this);
     }
 
+    private void SetGridHeight(object sender, AvaloniaPropertyChangedEventArgs args)
+    {
+      if(args.Property == DockPanel.BoundsProperty)
+      {
+        grid.Height = control.Height;
+        grid.Width = control.Width - 100;
+      }
+    }
+
     private void SetOffset(object sender, AvaloniaPropertyChangedEventArgs args)
     {
-      if(args.Property == ScrollViewer.TransformedBoundsProperty)
+      if(args.Property == DataGrid.TransformedBoundsProperty)
       {
         if(args.OldValue == null)
         {
-          if(position != new Vector(0,0))
-          {
-            scroll.Offset = position;
-            return;
-          }
+          grid.ScrollIntoView(lastObject, null);
         }
-        position = scroll.Offset;
       }
     }
 
@@ -118,6 +126,7 @@ namespace MediaPlayer.Client.Views
         {
           if(dc.GetType() == typeof(DirectoryItem))
           {
+            lastObject = dc;
             var temp = (DirectoryItem)dc;
             if(File.Exists(temp.StartPath))
             {
