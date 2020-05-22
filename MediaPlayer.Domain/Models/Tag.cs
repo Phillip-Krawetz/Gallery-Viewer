@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Avalonia.Media;
-using MediaPlayer.Domain.Interfaces;
 
 namespace MediaPlayer.Domain.Models
 {
