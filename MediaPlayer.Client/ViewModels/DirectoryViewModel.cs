@@ -34,7 +34,7 @@ namespace MediaPlayer.Client.ViewModels
         {
           return items;
         }
-        return new ObservableCollection<DirectoryItem>(items.Where(x => x.Tags.Any(y => filters.Contains(y))));
+        return new ObservableCollection<DirectoryItem>(items.Where(x => (new HashSet<Tag>(x.Tags)).IsSupersetOf(filters)));
       }
       set => this.RaiseAndSetIfChanged(ref items, value); 
     }
