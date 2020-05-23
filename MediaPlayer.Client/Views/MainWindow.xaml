@@ -9,6 +9,7 @@
   <Window.KeyBindings>
     <KeyBinding Gesture="{Binding PrevKey}" Command="{Binding Prev}"/>
     <KeyBinding Gesture="{Binding NextKey}" Command="{Binding Next}"/>
+    <KeyBinding Gesture="{Binding BackKey}" Command="{Binding BackEventHandler}"/>
   </Window.KeyBindings>
   <Grid RowDefinitions="Auto,*">
     <WrapPanel Name="MenuBar" Grid.Row="0" PointerEnter="OpenMenuBar" PointerLeave="CloseMenuBar" Height="10">

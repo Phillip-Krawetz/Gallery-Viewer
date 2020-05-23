@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Input;
+using MediaPlayer.Domain.Models;
 using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
@@ -40,6 +41,11 @@ namespace MediaPlayer.Client.ViewModels
     public static KeyGesture PrevKey
     {
       get => new KeyGesture(Key.Left, KeyModifiers.None);
+    }
+
+    public static KeyGesture BackKey
+    {
+      get => new KeyGesture(Key.Escape, KeyModifiers.None);
     }
 
     public override void Next()

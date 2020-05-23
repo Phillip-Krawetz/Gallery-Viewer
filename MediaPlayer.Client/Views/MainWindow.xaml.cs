@@ -17,11 +17,14 @@ namespace MediaPlayer.Client.Views
             {
               this.BackButtonPress();
             };
+            this.DataContextChanged += AssignKeyBindings;
+
             var categoryButton = this.Find<Button>("CategoryButton");
             categoryButton.Click += delegate
             {
               (this.DataContext as MainWindowViewModel).Content = new CategoryViewModel();
             };
+
             mainContent = this.Find<UserControl>("MainContent");
             menuBar = this.Find<WrapPanel>("MenuBar");
         }
@@ -29,6 +32,15 @@ namespace MediaPlayer.Client.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        public void AssignKeyBindings(object sender, System.EventArgs args)
+        {
+          var vm = this.DataContext as MainWindowViewModel;
+          vm.BackEvent += delegate
+          {
+            this.BackButtonPress();
+          };
         }
 
         private void BackButtonPress()
