@@ -54,7 +54,7 @@ namespace MediaPlayer.Client.Views
 
     private void UpdateCategory(object sender, AvaloniaPropertyChangedEventArgs args)
     {
-      if(args.Property == Button.IsPressedProperty)
+      if(args.Property == Button.IsPressedProperty && !(bool)args.NewValue)
       {
         currentCategory.Name = nameField.Text;
         currentCategory.R = Convert.ToByte(rField.Text);
