@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.ViewModels;
@@ -40,8 +41,18 @@ namespace MediaPlayer.Client.Views
 
     private void CategorySelection(object sender, PointerPressedEventArgs args)
     {
-      currentCategory = (sender as TextBlock).DataContext as Category;
-      SetFields();
+      switch(args.GetCurrentPoint(null).Properties.PointerUpdateKind)
+      {
+        case(PointerUpdateKind.LeftButtonPressed):
+          currentCategory = (sender as TextBlock).DataContext as Category;
+          SetFields();
+          break;
+        case(PointerUpdateKind.RightButtonPressed):
+          var popup = this.FindControl<Popup>("Popup");
+          popup.PlacementTarget = sender as Control;
+          popup.Open();
+          break;
+      }
     }
 
     private void SetFields()
@@ -62,6 +73,18 @@ namespace MediaPlayer.Client.Views
         currentCategory.B = Convert.ToByte(bField.Text);
         var vm = this.DataContext as CategoryViewModel;
         vm.UpdateCategory(currentCategory);
+      }
+    }
+
+    private void RemoveCategory(object sender, PointerPressedEventArgs args)
+    {
+      var popup = (sender as TextBlock).Parent.Parent as Popup;
+      if(popup != null)
+      {
+        var category = (popup.PlacementTarget as TextBlock).DataContext as Category;
+        var vm = this.DataContext as CategoryViewModel;
+        vm.RemoveCategory(category);
+        popup.Close();
       }
     }
   }

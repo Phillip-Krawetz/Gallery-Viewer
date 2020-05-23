@@ -37,5 +37,11 @@ namespace MediaPlayer.Client.ViewModels
         this.RaisePropertyChanged("Categories");
       }
     }
+
+    public void RemoveCategory(Category category)
+    {
+      System.Console.WriteLine(category.Id);
+      System.Console.WriteLine(category.Name);
+    }
   }
 }

@@ -36,5 +36,10 @@
     <TextBlock Grid.Row="5" Grid.Column="1" Text="B Value:" HorizontalAlignment="Right" Margin="6"/>
     <TextBox Name="CategoryBBox" Grid.Row="5" Grid.Column="2"/>
     <Button Name="SaveButton" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">Save</Button>
+    <Popup Name="Popup" StaysOpen="False">
+      <StackPanel Margin="5" Spacing="5">
+        <TextBlock Text="Remove" Foreground="White" HorizontalAlignment="Center" PointerPressed="RemoveCategory"/>
+      </StackPanel>
+    </Popup>
   </Grid>
 </UserControl>
