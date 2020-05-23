@@ -59,9 +59,35 @@ namespace MediaPlayer.Storing.Repositories
       return c;
     }
 
+    public void UpdateOrAdd(Category category)
+    {
+      if(CategoryExists(category.Id))
+      {
+        var cat = categories.FirstOrDefault(x => x.Id == category.Id);
+        cat.B = category.B;
+        cat.G = category.G;
+        cat.R = category.R;
+        connector.UpdateItem<Category>(cat);
+      }
+      else
+      {
+        categories.Add(category);
+        connector.AddItem<Category>(category);
+      }
+    }
+
     public bool CategoryExists(string category)
     {
       if(categories.Any(x => x.Name == category))
+      {
+        return true;
+      }
+      return false;
+    }
+
+    public bool CategoryExists(int id)
+    {
+      if(categories.Any(x => x.Id == id))
       {
         return true;
       }
