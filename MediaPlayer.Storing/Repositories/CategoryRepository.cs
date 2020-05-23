@@ -10,11 +10,11 @@ namespace MediaPlayer.Storing.Repositories
   {
     private static SqlConnector connector = new SqlConnector();
 
-    private static ConcurrentBag<Category> categories;
+    private static ConcurrentDictionary<int,Category> categories;
 
     public static List<Category> Categories 
     { 
-      get => categories.ToList();
+      get => categories.Values.ToList();
     }
 
     public Category Default 
@@ -23,9 +23,10 @@ namespace MediaPlayer.Storing.Repositories
       {
         if(categories.Count < 1)
         {
-          categories.Add(new Category());
+          var cat = new Category();
+          categories.TryAdd(cat.Id, cat);
         }
-        return categories.ElementAtOrDefault(0);
+        return categories.ElementAtOrDefault(0).Value;
       }
     }
 
@@ -38,7 +39,11 @@ namespace MediaPlayer.Storing.Repositories
     {
       if(categories == null)
       {
-        categories = new ConcurrentBag<Category>(connector.GetTable<Category>());
+        categories = new ConcurrentDictionary<int, Category>();
+        foreach(var item in connector.GetTable<Category>())
+        {
+          categories.TryAdd(item.Id, item);
+        }
       }
     }
 
@@ -51,10 +56,10 @@ namespace MediaPlayer.Storing.Repositories
     {
       if(CategoryExists(category))
       {
-        return categories.First(x => x.Name == category);
+        return categories.First(x => x.Value.Name == category).Value;
       }
       var c = new Category{Name = category};
-      categories.Add(c);
+      categories.TryAdd(c.Id, c);
       connector.AddItem<Category>(c);
       return c;
     }
@@ -63,7 +68,7 @@ namespace MediaPlayer.Storing.Repositories
     {
       if(CategoryExists(category.Id))
       {
-        var cat = categories.FirstOrDefault(x => x.Id == category.Id);
+        var cat = categories.FirstOrDefault(x => x.Value.Id == category.Id).Value;
         cat.B = category.B;
         cat.G = category.G;
         cat.R = category.R;
@@ -71,14 +76,23 @@ namespace MediaPlayer.Storing.Repositories
       }
       else
       {
-        categories.Add(category);
+        categories.TryAdd(category.Id, category);
         connector.AddItem<Category>(category);
+      }
+    }
+
+    public void RemoveCategory(Category category)
+    {
+      if(categories.Values.Contains(category))
+      {
+        connector.RemoveItem<Category>(category);
+        categories.Remove(category.Id, out category);
       }
     }
 
     public bool CategoryExists(string category)
     {
-      if(categories.Any(x => x.Name == category))
+      if(categories.Any(x => x.Value.Name == category))
       {
         return true;
       }
@@ -87,7 +101,7 @@ namespace MediaPlayer.Storing.Repositories
 
     public bool CategoryExists(int id)
     {
-      if(categories.Any(x => x.Id == id))
+      if(categories.Any(x => x.Value.Id == id))
       {
         return true;
       }

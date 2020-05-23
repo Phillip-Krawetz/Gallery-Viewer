@@ -40,8 +40,12 @@ namespace MediaPlayer.Client.ViewModels
 
     public void RemoveCategory(Category category)
     {
-      System.Console.WriteLine(category.Id);
-      System.Console.WriteLine(category.Name);
+      if(Categories.Contains(category))
+      {
+        categories.Remove(category);
+        categoryRepository.RemoveCategory(category);
+        this.RaisePropertyChanged("Categories");
+      }
     }
   }
 }
