@@ -4,29 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
              x:Class="MediaPlayer.Client.Views.CategoryView">
-  <Grid RowDefinitions="Auto,200,Auto,Auto,Auto,Auto,Auto" Grid.ColumnDefinitions="100,*">
-    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">All Categories:</TextBlock>
-    <ScrollViewer Grid.Row="1" Grid.Column="0">
+  <Grid RowDefinitions="Auto,200,Auto,Auto,Auto,Auto,Auto" Grid.ColumnDefinitions="20,100,*,20">
+    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center">All Categories:</TextBlock>
+    <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
       <WrapPanel>
-        <ListBox Items="{Binding Categories}">
-          <ListBox.ItemTemplate>
+        <ItemsControl Items="{Binding Categories}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4">
+              <Border CornerRadius="10" Background="MidnightBlue" BorderThickness="2" Padding="4" Margin="2">
                 <TextBlock Text="{Binding Name}" PointerPressed="CategorySelection"/>
               </Border>
             </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Border CornerRadius="10" Background="MidnightBlue" BorderThickness="2" Padding="4" Margin="2">
+          <TextBlock Text="New +" PointerPressed="AddCategory"/>
+        </Border>
       </WrapPanel>
     </ScrollViewer>
-    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="6">Category:</TextBlock>
-    <TextBox Name="CategoryNameBox" Grid.Row="2" Grid.Column="1"/>
-    <TextBlock Grid.Row="3" Grid.Column="0" Text="R Value:" HorizontalAlignment="Right" Margin="6"/>
-    <TextBox Name="CategoryRBox" Grid.Row="3" Grid.Column="1"/>
-    <TextBlock Grid.Row="4" Grid.Column="0" Text="G Value:" HorizontalAlignment="Right" Margin="6"/>
-    <TextBox Name="CategoryGBox" Grid.Row="4" Grid.Column="1"/>
-    <TextBlock Grid.Row="5" Grid.Column="0" Text="B Value:" HorizontalAlignment="Right" Margin="6"/>
-    <TextBox Name="CategoryBBox" Grid.Row="5" Grid.Column="1"/>
-    <Button Name="SaveButton" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">Save</Button>
+    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="6">Category:</TextBlock>
+    <TextBox Name="CategoryNameBox" Grid.Row="2" Grid.Column="2"/>
+    <TextBlock Grid.Row="3" Grid.Column="1" Text="R Value:" HorizontalAlignment="Right" Margin="6"/>
+    <TextBox Name="CategoryRBox" Grid.Row="3" Grid.Column="2"/>
+    <TextBlock Grid.Row="4" Grid.Column="1" Text="G Value:" HorizontalAlignment="Right" Margin="6"/>
+    <TextBox Name="CategoryGBox" Grid.Row="4" Grid.Column="2"/>
+    <TextBlock Grid.Row="5" Grid.Column="1" Text="B Value:" HorizontalAlignment="Right" Margin="6"/>
+    <TextBox Name="CategoryBBox" Grid.Row="5" Grid.Column="2"/>
+    <Button Name="SaveButton" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">Save</Button>
   </Grid>
 </UserControl>

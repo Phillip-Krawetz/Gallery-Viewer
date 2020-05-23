@@ -32,9 +32,20 @@ namespace MediaPlayer.Client.Views
       AvaloniaXamlLoader.Load(this);
     }
 
+    private void AddCategory(object sender, PointerPressedEventArgs args)
+    {
+      currentCategory = new Category(){ Name = "New" };
+      SetFields();
+    }
+
     private void CategorySelection(object sender, PointerPressedEventArgs args)
     {
       currentCategory = (sender as TextBlock).DataContext as Category;
+      SetFields();
+    }
+
+    private void SetFields()
+    {
       nameField.Text = currentCategory.Name;
       rField.Text = currentCategory.R.ToString();
       gField.Text = currentCategory.G.ToString();
