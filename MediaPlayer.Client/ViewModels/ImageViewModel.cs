@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -33,7 +34,7 @@ namespace MediaPlayer.Client.ViewModels
       get => Enumerable.Range(1, myFiles.Count).ToList();
     }
 
-    int _index;
+    private int _index;
 
     public int currentIndex 
     {
@@ -47,18 +48,22 @@ namespace MediaPlayer.Client.ViewModels
     }
 
     public ImageViewModel(string ImagePath){
-      this.ImagePath = ImagePath;      
+      this.ImagePath = ImagePath;
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
 
-      var iterate = IterateFiles(dir);
+      new Thread(() =>
+      {
+        Thread.CurrentThread.IsBackground = true;
+        IterateFiles(dir);
+      }).Start();
 
-      currentIndex = myFiles.FindIndex(x => x == ImagePath);
+      currentIndex = 0;
 
-      System.Console.WriteLine(dir);
+      System.Console.WriteLine("Opened:" + dir);
     }
 
-    public async Task IterateFiles(string dir)
+    public void IterateFiles(string dir)
     {
       foreach(var item in Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly))
       {
@@ -67,7 +72,7 @@ namespace MediaPlayer.Client.ViewModels
           myFiles.Add(item);
         }
       }
-      await Task.Yield();
+      this.RaisePropertyChanged("LastPage");
     }
 
     public void JumpToPage(int page)

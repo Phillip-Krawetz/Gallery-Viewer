@@ -34,7 +34,7 @@
         <WrapPanel>
           <TextBlock Text="{Binding currentIndex, Converter={StaticResource intConverter}}" Foreground="White"/>
           <TextBlock Text="/" Foreground="White"/>
-          <TextBlock Text="{Binding LastPage, Mode=OneTime}" Foreground="White"/>
+          <TextBlock Text="{Binding LastPage}" Foreground="White"/>
         </WrapPanel>
       </Border>
       <Popup Name="Popup" StaysOpen="False" PlacementMode="Top" Width="65" Height="200">

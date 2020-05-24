@@ -11,8 +11,6 @@ namespace MediaPlayer.Client.Views
 {
   public class ImageView : UserControl
   {
-
-    private Image image;
     public ImageView()
     {
       InitializeComponent();
@@ -21,7 +19,6 @@ namespace MediaPlayer.Client.Views
     private void InitializeComponent()
     {
       AvaloniaXamlLoader.Load(this);
-      image = this.FindControl<Image>("img");
     }
 
     public void HoverHandler(object sender, PointerEventArgs args)
