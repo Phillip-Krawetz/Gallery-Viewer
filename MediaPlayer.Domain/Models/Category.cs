@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Avalonia.Media;
+using MediaPlayer.Domain.Abstracts;
 
 namespace MediaPlayer.Domain.Models
 {
-  public class Category
+  public class Category : AbstractObjectWithID
   {
-    public int Id { get; set; }
     public string Name { get; set; }
     [NotMapped]
     public IBrush Color 

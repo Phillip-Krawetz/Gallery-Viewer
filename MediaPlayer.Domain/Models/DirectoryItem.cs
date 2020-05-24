@@ -1,16 +1,13 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using MediaPlayer.Domain.Abstracts;
 
 namespace MediaPlayer.Domain.Models
 {
-  public class DirectoryItem
+  public class DirectoryItem : AbstractObjectWithID
   {
-    public int Id { get; set; }
     public string FolderPath { get; set; }
     [NotMapped]
     public Bitmap ThumbPath { get; set; }
