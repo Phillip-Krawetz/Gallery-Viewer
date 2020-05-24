@@ -15,6 +15,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using MediaPlayer.Domain.Models;
 using MediaPlayer.Domain.Variables;
 using ReactiveUI;
 
@@ -35,8 +36,8 @@ namespace MediaPlayer.Client.ViewModels
       get => Enumerable.Range(1, myFiles.Count).ToList();
     }
 
-    private ConcurrentDictionary<int, Bitmap> images;
-    public ConcurrentDictionary<int, Bitmap> Images
+    private ObservableConcurrentDictionary<int, Bitmap> images;
+    public ObservableConcurrentDictionary<int, Bitmap> Images
     {
       get => images;
       set => this.RaiseAndSetIfChanged(ref images, value);
@@ -65,7 +66,15 @@ namespace MediaPlayer.Client.ViewModels
 
       if(Options.Preload)
       {
-        this.Images = new ConcurrentDictionary<int, Bitmap>();
+        this.Images = new ObservableConcurrentDictionary<int, Bitmap>();
+        Images.ValueChanged += delegate(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+          var temp = args as ObservableConcurrentDictionaryEventArgs;
+          if((int)temp.Key == currentIndex && temp.OldValue == null)
+          {
+            this.RaisePropertyChanged("CurrentImage");
+          }
+        }; 
       }
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
@@ -90,8 +99,7 @@ namespace MediaPlayer.Client.ViewModels
             new Thread(() =>
             {
               Thread.CurrentThread.IsBackground = true;
-              Images.AddOrUpdate(myFiles.IndexOf(item),new Bitmap(item), (key, oldValue) => oldValue = new Bitmap(item));
-              System.Console.WriteLine(item + " added at " + myFiles.IndexOf(item));
+              Images[myFiles.IndexOf(item)] = new Bitmap(item);
             }).Start();
           }
         }
