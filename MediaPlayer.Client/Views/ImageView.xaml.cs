@@ -31,7 +31,7 @@ namespace MediaPlayer.Client.Views
 
     private void ImageLoad(object sender, AvaloniaPropertyChangedEventArgs args)
     {
-      if(args.Property == DockPanel.BoundsProperty)
+      if(args.Property == DockPanel.BoundsProperty && (Rect?)args.OldValue == default(Rect))
       {
         var img = this.FindControl<Image>("img");
         if(Options.Preload)
