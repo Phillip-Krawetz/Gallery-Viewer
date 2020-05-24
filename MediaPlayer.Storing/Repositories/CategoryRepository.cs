@@ -14,7 +14,7 @@ namespace MediaPlayer.Storing.Repositories
 
     public static List<Category> Categories 
     { 
-      get => categories.Values.ToList();
+      get => categories.Values.OrderBy(x => x.Id).ToList();
     }
 
     public Category Default 
@@ -76,8 +76,8 @@ namespace MediaPlayer.Storing.Repositories
       }
       else
       {
+        category.Id = connector.AddItem<Category>(category);
         categories.TryAdd(category.Id, category);
-        connector.AddItem<Category>(category);
       }
     }
 

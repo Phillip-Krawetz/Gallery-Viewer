@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MediaPlayer.Domain.Abstracts;
 using MediaPlayer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,12 +8,13 @@ namespace MediaPlayer.Storing.Connectors
 {
   public class SqlConnector
   {
-    public void AddItem<T>(object item) where T : class
+    public int AddItem<T>(object item) where T : class
     {
       using(var db = new MediaPlayerDbContext())
       {
         db.Add(item as T);
         db.SaveChanges();
+        return (item is AbstractObjectWithID) ? (item as AbstractObjectWithID).Id : 0;
       }
     }
 
