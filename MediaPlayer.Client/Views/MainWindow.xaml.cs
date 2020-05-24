@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.ViewModels;
+using MediaPlayer.Domain.Variables;
 
 namespace MediaPlayer.Client.Views
 {
@@ -23,6 +24,12 @@ namespace MediaPlayer.Client.Views
             categoryButton.Click += delegate
             {
               (this.DataContext as MainWindowViewModel).Content = new CategoryViewModel();
+            };
+
+            var optionsButton = this.Find<Button>("OptionsButton");
+            optionsButton.Click += delegate
+            {
+              Options.Preload = !Options.Preload;
             };
 
             mainContent = this.Find<UserControl>("MainContent");

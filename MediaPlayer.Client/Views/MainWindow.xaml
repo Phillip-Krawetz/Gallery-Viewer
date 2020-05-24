@@ -15,6 +15,7 @@
     <WrapPanel Name="MenuBar" Grid.Row="0" PointerEnter="OpenMenuBar" PointerLeave="CloseMenuBar" Height="10">
       <Button Name="BackButton">Back</Button>
       <Button Name="CategoryButton">Categories</Button>
+      <Button Name="OptionsButton">Toggle Preload</Button>
     </WrapPanel>
     <UserControl Name="MainContent" Grid.Row="1" PropertyChanged="ContentChangeHandler" Content="{Binding Content}"/>
   </Grid>

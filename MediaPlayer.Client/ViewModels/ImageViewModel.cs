@@ -34,6 +34,18 @@ namespace MediaPlayer.Client.ViewModels
       get => Enumerable.Range(1, myFiles.Count).ToList();
     }
 
+    private List<Bitmap> images;
+    public List<Bitmap> Images
+    {
+      get => images;
+      set => this.RaiseAndSetIfChanged(ref images, value);
+    }
+
+    public Bitmap CurrentImage
+    {
+      get => Images[currentIndex];
+    }
+
     private int _index;
 
     public int currentIndex 
@@ -49,6 +61,7 @@ namespace MediaPlayer.Client.ViewModels
 
     public ImageViewModel(string ImagePath){
       this.ImagePath = ImagePath;
+      this.Images = new List<Bitmap>();
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
 
@@ -69,6 +82,10 @@ namespace MediaPlayer.Client.ViewModels
       {
         if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(item).ToLowerInvariant()))
         {
+          if(Options.Preload)
+          {
+            Images.Add(new Bitmap(item));
+          }
           myFiles.Add(item);
         }
       }
@@ -81,6 +98,7 @@ namespace MediaPlayer.Client.ViewModels
       {
         currentIndex = page - 1;
         this.ImagePath = myFiles[page - 1];
+        this.RaisePropertyChanged("CurrentImage");
       }
     }
 
@@ -92,6 +110,7 @@ namespace MediaPlayer.Client.ViewModels
         currentIndex--;
       }
       this.ImagePath = myFiles[currentIndex];
+      this.RaisePropertyChanged("CurrentImage");
     }
 
     public override void Next()
@@ -101,6 +120,7 @@ namespace MediaPlayer.Client.ViewModels
         currentIndex++;
       }
       this.ImagePath = myFiles[currentIndex];
+      this.RaisePropertyChanged("CurrentImage");
     }
   }
 }

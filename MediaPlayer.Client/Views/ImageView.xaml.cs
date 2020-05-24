@@ -1,24 +1,49 @@
 using System;
+using System.Reactive.Subjects;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
+using MediaPlayer.Client.Converters;
 using MediaPlayer.Client.ViewModels;
+using MediaPlayer.Domain.Variables;
 
 namespace MediaPlayer.Client.Views
 {
   public class ImageView : UserControl
   {
+    private DockPanel imagePanel;
     public ImageView()
     {
       InitializeComponent();
+      imagePanel = this.FindControl<DockPanel>("MainPanel");
+      imagePanel.PropertyChanged += ImageLoad;
     }
 
     private void InitializeComponent()
     {
       AvaloniaXamlLoader.Load(this);
+    }
+
+    private void ImageLoad(object sender, AvaloniaPropertyChangedEventArgs args)
+    {
+      if(args.Property == DockPanel.BoundsProperty)
+      {
+        var img = this.FindControl<Image>("img");
+        if(Options.Preload)
+        {
+          img.Bind(Image.SourceProperty, new Binding("CurrentImage"));
+        }
+        else
+        {
+          var temp = new BitmapValueConverter();
+          img.Bind(Image.SourceProperty, new Binding("ImagePath"){Converter = temp});
+        }
+      }
     }
 
     public void HoverHandler(object sender, PointerEventArgs args)
