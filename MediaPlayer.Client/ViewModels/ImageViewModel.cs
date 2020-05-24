@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -34,8 +35,8 @@ namespace MediaPlayer.Client.ViewModels
       get => Enumerable.Range(1, myFiles.Count).ToList();
     }
 
-    private List<Bitmap> images;
-    public List<Bitmap> Images
+    private ConcurrentDictionary<int, Bitmap> images;
+    public ConcurrentDictionary<int, Bitmap> Images
     {
       get => images;
       set => this.RaiseAndSetIfChanged(ref images, value);
@@ -61,15 +62,15 @@ namespace MediaPlayer.Client.ViewModels
 
     public ImageViewModel(string ImagePath){
       this.ImagePath = ImagePath;
-      this.Images = new List<Bitmap>();
+
+      if(Options.Preload)
+      {
+        this.Images = new ConcurrentDictionary<int, Bitmap>();
+      }
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
 
-      new Thread(() =>
-      {
-        Thread.CurrentThread.IsBackground = true;
-        IterateFiles(dir);
-      }).Start();
+      IterateFiles(dir);
 
       currentIndex = 0;
 
@@ -82,11 +83,17 @@ namespace MediaPlayer.Client.ViewModels
       {
         if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(item).ToLowerInvariant()))
         {
+          myFiles.Add(item);
           if(Options.Preload)
           {
-            Images.Add(new Bitmap(item));
+            Images.TryAdd(myFiles.IndexOf(item), default(Bitmap));
+            new Thread(() =>
+            {
+              Thread.CurrentThread.IsBackground = true;
+              Images.AddOrUpdate(myFiles.IndexOf(item),new Bitmap(item), (key, oldValue) => oldValue = new Bitmap(item));
+              System.Console.WriteLine(item + " added at " + myFiles.IndexOf(item));
+            }).Start();
           }
-          myFiles.Add(item);
         }
       }
       this.RaisePropertyChanged("LastPage");
