@@ -82,6 +82,11 @@ namespace MediaPlayer.Client.Views
       if(popup != null)
       {
         var category = (popup.PlacementTarget as TextBlock).DataContext as Category;
+        if(category.Id == 1)
+        {
+          popup.Close();
+          return;
+        }
         var vm = this.DataContext as CategoryViewModel;
         vm.RemoveCategory(category);
         popup.Close();
