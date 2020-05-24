@@ -85,6 +85,14 @@ namespace MediaPlayer.Storing.Repositories
     {
       if(categories.Values.Contains(category))
       {
+        var tagRepo = new TagRepository();
+        foreach(var item in TagRepository.Tags.Where(x => x.CategoryId == category.Id))
+        {
+          item.Category = categories[1] ?? categories.OrderBy(kvp => kvp.Key).First().Value;
+          item.CategoryId = item.Category.Id;
+          tagRepo.UpdateTag(item);
+        }
+        category.Tags = null;
         connector.RemoveItem<Category>(category);
         categories.Remove(category.Id, out category);
       }
