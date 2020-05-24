@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="250" Height="100"
+        x:Class="MediaPlayer.Client.Views.TagWindow"
+        Title="Tag Edit">
+  <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="20,80,*,20">
+    <TextBlock Grid.Row="0" Grid.Column="1" Text="Tag:"/>
+    <TextBox Name="TagName" Grid.Row="0" Grid.Column="2"/>
+    <TextBlock Grid.Row="1" Grid.Column="1" Text="Category:"/>
+    <ComboBox Name="CategoryList" Grid.Row="1" Grid.Column="2" Items="{Binding Categories}">
+      <ComboBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}"/>
+        </DataTemplate>
+      </ComboBox.ItemTemplate>
+    </ComboBox>
+    <Button Name="SaveButton" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Save</Button>
+  </Grid>
+</Window>

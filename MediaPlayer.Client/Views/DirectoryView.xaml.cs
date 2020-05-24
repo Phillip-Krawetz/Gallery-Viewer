@@ -69,6 +69,22 @@ namespace MediaPlayer.Client.Views
       }
     }
 
+    private void TagEdit(object sender, PointerPressedEventArgs args)
+    {
+      var popup = (sender as TextBlock).Parent.Parent as Popup;
+      if(popup != null)
+      {
+        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
+        var tagWindow = new TagWindow(tag);
+        var openPoint = (this.Parent.Parent.Parent as Window).Position;
+        openPoint = openPoint.WithX((int)(openPoint.X + this.Bounds.Width/2 - tagWindow.Width/2));
+        openPoint = openPoint.WithY((int)(openPoint.Y + this.Bounds.Height/2 - tagWindow.Height/2));
+        tagWindow.Position = openPoint;
+        tagWindow.ShowDialog(this.Parent.Parent.Parent as Window);
+        popup.Close();
+      }
+    }
+
     private void TagRemove(object sender, PointerPressedEventArgs args)
     {
       var popup = (sender as TextBlock).Parent.Parent as Popup;
