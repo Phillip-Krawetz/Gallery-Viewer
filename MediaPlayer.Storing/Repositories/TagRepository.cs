@@ -3,6 +3,7 @@ using MediaPlayer.Domain.Models;
 using System.Linq;
 using MediaPlayer.Storing.Connectors;
 using System.Collections.Concurrent;
+using System.Collections.Specialized;
 
 namespace MediaPlayer.Storing.Repositories
 {
@@ -35,7 +36,7 @@ namespace MediaPlayer.Storing.Repositories
 
     public static void MapCategories()
     {
-      var cats = connector.GetTable<Category>();
+      var cats = CategoryRepository.Categories;
       foreach(var item in cats)
       {
         var a = tags.Where(x => x.CategoryId == item.Id);

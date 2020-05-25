@@ -16,9 +16,9 @@ namespace MediaPlayer.Client.ViewModels
 
     public MainWindowViewModel(){
       Content = new HomeMenuViewModel();
+      CategoryRepository.Initialize();
       TagRepository.Initialize();
       DirectoryRepository.Initialize();
-      CategoryRepository.Initialize();
     }
 
     public ViewModelBase Content
@@ -45,7 +45,7 @@ namespace MediaPlayer.Client.ViewModels
 
     public static KeyGesture BackKey
     {
-      get => new KeyGesture(Key.Escape, KeyModifiers.None);
+      get => new KeyGesture(Key.Left, KeyModifiers.Control);
     }
 
     public override void Next()
