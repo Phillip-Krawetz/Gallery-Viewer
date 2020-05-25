@@ -79,15 +79,16 @@ namespace MediaPlayer.Client.ViewModels
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
 
-      IterateFiles(dir);
+      var continueExecution = IterateFiles(dir);
 
       currentIndex = 0;
 
       System.Console.WriteLine("Opened:" + dir);
     }
 
-    public void IterateFiles(string dir)
+    public async Task IterateFiles(string dir)
     {
+      var LoadTasks = new List<Task>();
       foreach(var item in Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly))
       {
         if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(item).ToLowerInvariant()))
@@ -96,15 +97,20 @@ namespace MediaPlayer.Client.ViewModels
           if(Options.Preload)
           {
             Images.TryAdd(myFiles.IndexOf(item), default(Bitmap));
-            new Thread(() =>
-            {
-              Thread.CurrentThread.IsBackground = true;
-              Images[myFiles.IndexOf(item)] = new Bitmap(item);
-            }).Start();
+            LoadTasks.Add(LoadBitmap(myFiles.IndexOf(item),item));
           }
         }
       }
       this.RaisePropertyChanged("LastPage");
+      if(LoadTasks.Count > 0)
+      {
+        await Task.WhenAny(LoadTasks);
+      }
+    }
+
+    private async Task LoadBitmap(int index, string path)
+    {
+      await Task.Run(() => Images[index] = new Bitmap(path));
     }
 
     public void JumpToPage(int page)
