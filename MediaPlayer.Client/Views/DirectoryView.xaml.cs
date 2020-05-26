@@ -7,8 +7,6 @@ using Avalonia.Markup.Xaml;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Client.ViewModels;
 using System.IO;
-using System;
-using Avalonia.Media;
 
 namespace MediaPlayer.Client.Views
 {
@@ -136,20 +134,17 @@ namespace MediaPlayer.Client.Views
         return;
       }
       var dc = obj.DataContext;
-      if(args.Column.Header.ToString() != "Tags")
+      if((obj as INamed).Name != "TagCell")
       {
-        if(this.Parent.Name == "MainContent")
+        if(dc.GetType() == typeof(DirectoryItem))
         {
-          if(dc.GetType() == typeof(DirectoryItem))
+          lastObject = dc;
+          var temp = (DirectoryItem)dc;
+          if(File.Exists(temp.StartPath))
           {
-            lastObject = dc;
-            var temp = (DirectoryItem)dc;
-            if(File.Exists(temp.StartPath))
-            {
-              var vm = new ImageViewModel(temp.StartPath);
-              var t = (MainWindowViewModel)this.Parent.DataContext;
-              t.Content = vm;
-            }
+            var vm = new ImageViewModel(temp.StartPath);
+            var t = (MainWindowViewModel)this.Parent.DataContext;
+            t.Content = vm;
           }
         }
         return;

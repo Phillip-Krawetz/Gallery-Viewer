@@ -40,7 +40,7 @@
         <DataGridTemplateColumn Header="Tags" Width="*">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
-              <StackPanel VerticalAlignment="Center">
+              <StackPanel Name="TagCell" VerticalAlignment="Center">
                 <ItemsControl Items="{Binding Tags}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
