@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
-using System.Text;
-using Avalonia.Controls;
-using Avalonia.Input;
-using MediaPlayer.Domain.Models;
-using MediaPlayer.Storing.Repositories;
+﻿using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
 namespace MediaPlayer.Client.ViewModels
@@ -33,21 +26,6 @@ namespace MediaPlayer.Client.ViewModels
       Content = vm;
     }
 
-    public static KeyGesture NextKey
-    {
-      get => new KeyGesture(Key.Right, KeyModifiers.None);
-    }
-
-    public static KeyGesture PrevKey
-    {
-      get => new KeyGesture(Key.Left, KeyModifiers.None);
-    }
-
-    public static KeyGesture BackKey
-    {
-      get => new KeyGesture(Key.Left, KeyModifiers.Control);
-    }
-
     public override void Next()
     {
       this.content.Next();
@@ -56,6 +34,11 @@ namespace MediaPlayer.Client.ViewModels
     public override void Prev()
     {
       this.content.Prev();
+    }
+
+    public override void ConfirmEventHandler()
+    {
+      this.content.ConfirmEventHandler();
     }
   }
 }
