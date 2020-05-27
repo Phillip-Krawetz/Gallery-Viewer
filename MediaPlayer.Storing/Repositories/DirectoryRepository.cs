@@ -61,7 +61,7 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
-    private void MapTags()
+    private static void MapTags()
     {
       var tags = connector.GetTable<DirectoryTag>();
       foreach(var item in tags)
@@ -74,7 +74,7 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
-    private void GetThumbs()
+    private static void GetThumbs()
     {
       foreach(var item in directories)
       {
@@ -85,7 +85,7 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
-    private Bitmap CreateThumb(string name, string path)
+    private static Bitmap CreateThumb(string name, string path)
     {
       if(!File.Exists(ImageUtils.ThumbnailCachePath(name)))
       {
@@ -126,14 +126,14 @@ namespace MediaPlayer.Storing.Repositories
       if(directories == null)
       {
         directories = new ConcurrentBag<DirectoryItem>(connector.GetTable<DirectoryItem>());
+        MapTags();
+        GetThumbs();
       }
     }
 
     public DirectoryRepository()
     {
       Initialize();
-      MapTags();
-      GetThumbs();
     }
   }
 }
