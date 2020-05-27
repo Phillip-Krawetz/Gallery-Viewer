@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 using System.Threading;
 using MediaPlayer.Domain.Utilities;
-using MediaPlayer.Domain.Variables;
 using System.Collections.Concurrent;
 
 namespace MediaPlayer.Client.ViewModels
