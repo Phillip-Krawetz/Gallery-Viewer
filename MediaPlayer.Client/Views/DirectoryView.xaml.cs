@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Client.ViewModels;
 using System.IO;
+using Avalonia.VisualTree;
 
 namespace MediaPlayer.Client.Views
 {
@@ -126,6 +127,23 @@ namespace MediaPlayer.Client.Views
       dc.RemoveFilter((sender as StyledElement).DataContext as Tag);
     }
 
+    private void SaveLastRowPosition(object sender, DataGridCellPointerPressedEventArgs args)
+    {
+      var gridBottom = ((TransformedBounds)(sender as DataGrid).TransformedBounds).Clip.Bottom;
+      var cellBottom = ((TransformedBounds)args.Cell.TransformedBounds).Clip.Bottom;
+      var cellHeight = ((TransformedBounds)args.Cell.TransformedBounds).Clip.Height;
+      var percentageOfLastRow = (decimal)((gridBottom - cellBottom)/cellHeight);
+      var numberOfRemainingRows = (int)decimal.Round(percentageOfLastRow, System.MidpointRounding.AwayFromZero);
+      var itemsAsList = (sender as DataGrid).Items.Cast<DirectoryItem>().ToList();
+      var currentIndex = itemsAsList.IndexOf((args.Cell.Content as IDataContextProvider).DataContext as DirectoryItem);
+      if(currentIndex + numberOfRemainingRows < itemsAsList.Count)
+      {
+        lastObject = itemsAsList[currentIndex + numberOfRemainingRows];
+        return;
+      }
+      lastObject = itemsAsList.Last();
+    }
+
     private void SelectionHandler(object sender, DataGridCellPointerPressedEventArgs args)
     {
       IDataContextProvider obj = args.Cell.Content as IDataContextProvider;
@@ -138,7 +156,7 @@ namespace MediaPlayer.Client.Views
       {
         if(dc.GetType() == typeof(DirectoryItem))
         {
-          lastObject = dc;
+          SaveLastRowPosition(sender, args);
           var temp = (DirectoryItem)dc;
           if(File.Exists(temp.StartPath))
           {
