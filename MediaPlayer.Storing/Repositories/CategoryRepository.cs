@@ -92,7 +92,6 @@ namespace MediaPlayer.Storing.Repositories
           item.CategoryId = item.Category.Id;
           tagRepo.UpdateTag(item);
         }
-        category.Tags = null;
         connector.RemoveItem<Category>(category);
         categories.Remove(category.Id, out category);
       }

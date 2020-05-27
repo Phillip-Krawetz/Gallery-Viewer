@@ -18,8 +18,6 @@ namespace MediaPlayer.Domain.Models
     public byte G { get; set; }
     public byte B { get; set; }
 
-    public List<Tag> Tags { get; set; }
-
     public Category()
     {
       Name = "Tag";
