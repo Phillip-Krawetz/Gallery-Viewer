@@ -30,6 +30,12 @@ namespace MediaPlayer.Client.Views
       AvaloniaXamlLoader.Load(this);
     }
 
+    private void ConfirmPressHappened(TextBox sender)
+    {
+      AddTag(sender.DataContext as DirectoryItem, sender.Text);
+      sender.Text = "";
+    }
+
     private void SetGridHeight(object sender, AvaloniaPropertyChangedEventArgs args)
     {
       if(args.Property == DockPanel.BoundsProperty)
@@ -119,6 +125,12 @@ namespace MediaPlayer.Client.Views
       vm.AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
       textBox.Text = "";
       args.Handled = true;
+    }
+
+    private void AddTag(DirectoryItem item, string tag)
+    {
+      var vm = this.DataContext as DirectoryViewModel;
+      vm.AddTag(item, tag);
     }
 
     private void RemoveFilter(object sender, PointerPressedEventArgs args)

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:MediaPlayer.Client.Converters;assembly=MediaPlayer.Client"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+             Name="DirectoryViewControl"
              x:Class="MediaPlayer.Client.Views.DirectoryView">
   <DockPanel Name="MainPanel">
     <DockPanel.Resources>
@@ -59,7 +60,16 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <WrapPanel HorizontalAlignment="Center">
-                  <TextBox Watermark="Add Tag" Width="100"/>
+                  <TextBox Name="AddTagBox" Watermark="Add Tag" Width="100">
+                    <TextBox.KeyBindings>
+                      <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
+                                  Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
+                        <KeyBinding.CommandParameter>
+                          <Binding Path="#AddTagBox"/>
+                        </KeyBinding.CommandParameter>
+                      </KeyBinding>
+                    </TextBox.KeyBindings>
+                  </TextBox>
                   <TextBlock Text=" Add"
                               PointerEnter="TagHover"
                               PointerLeave="TagUnhover"
