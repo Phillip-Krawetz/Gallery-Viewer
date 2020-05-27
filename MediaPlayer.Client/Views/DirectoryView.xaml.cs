@@ -34,6 +34,7 @@ namespace MediaPlayer.Client.Views
     {
       AddTag(sender.DataContext as DirectoryItem, sender.Text);
       sender.Text = "";
+      sender.ClearValue(AutoCompleteBox.TextProperty);
     }
 
     private void SetGridHeight(object sender, AvaloniaPropertyChangedEventArgs args)
@@ -121,9 +122,10 @@ namespace MediaPlayer.Client.Views
     {
       var textBlock = (TextBlock)sender;
       var vm = (DirectoryViewModel)this.DataContext;
-      var textBox = (textBlock.Parent as WrapPanel).Children.First(x => x.GetType() == typeof(TextBox)) as TextBox;
+      var textBox = (textBlock.Parent as WrapPanel).Children.First(x => x.GetType() == typeof(AutoCompleteBox)) as AutoCompleteBox;
       vm.AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
       textBox.Text = "";
+      textBox.ClearValue(AutoCompleteBox.TextProperty);
       args.Handled = true;
     }
 
