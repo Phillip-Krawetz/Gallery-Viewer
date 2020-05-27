@@ -116,7 +116,7 @@ namespace MediaPlayer.Client.ViewModels
 
     public void AddTag(DirectoryItem item, string tag)
     {
-      if(tag != ""){
+      if(!String.IsNullOrWhiteSpace(tag)){
         if(Items.Contains(item))
         {
           var newTag = tagRepo.GetOrNew(tag);
