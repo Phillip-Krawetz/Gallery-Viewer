@@ -41,6 +41,11 @@ namespace MediaPlayer.Client.ViewModels
       get => new ObservableCollection<Tag>(TagRepository.Tags);
     }
 
+    public List<string> TagNameList
+    {
+      get => TagList.Select(x => x.Name).ToList();
+    }
+
     private TagRepository tagRepo = new TagRepository();
     private DirectoryRepository directoryRepo = new DirectoryRepository();
 
@@ -113,6 +118,7 @@ namespace MediaPlayer.Client.ViewModels
         {
           var newTag = tagRepo.GetOrNew(tag);
           directoryRepo.AddTag(ref item, newTag);
+          this.RaisePropertyChanged("TagNameList");
         }
       }
     }

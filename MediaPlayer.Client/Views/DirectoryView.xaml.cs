@@ -30,7 +30,7 @@ namespace MediaPlayer.Client.Views
       AvaloniaXamlLoader.Load(this);
     }
 
-    private void ConfirmPressHappened(TextBox sender)
+    private void ConfirmPressHappened(AutoCompleteBox sender)
     {
       AddTag(sender.DataContext as DirectoryItem, sender.Text);
       sender.Text = "";

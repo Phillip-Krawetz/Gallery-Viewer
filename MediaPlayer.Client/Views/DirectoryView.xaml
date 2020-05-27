@@ -60,16 +60,18 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <WrapPanel HorizontalAlignment="Center">
-                  <TextBox Name="AddTagBox" Watermark="Add Tag" Width="100">
-                    <TextBox.KeyBindings>
+                  <AutoCompleteBox Name="AddTagBox" Watermark="Add Tag" Width="100" 
+                                    MinimumPopulateDelay="0.35" MaxDropDownHeight="100"
+                                    Items="{Binding #MainPanel.DataContext.TagNameList}">
+                    <AutoCompleteBox.KeyBindings>
                       <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
                                   Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
                         <KeyBinding.CommandParameter>
                           <Binding Path="#AddTagBox"/>
                         </KeyBinding.CommandParameter>
                       </KeyBinding>
-                    </TextBox.KeyBindings>
-                  </TextBox>
+                    </AutoCompleteBox.KeyBindings>
+                  </AutoCompleteBox>
                   <TextBlock Text=" Add"
                               PointerEnter="TagHover"
                               PointerLeave="TagUnhover"
