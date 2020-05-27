@@ -81,12 +81,13 @@ namespace MediaPlayer.Client.Views
       if(popup != null)
       {
         var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
-        var tagWindow = new TagWindow(tag);
+        var tagWindow = TagWindow.GetTagWindow;
         var openPoint = (this.Parent.Parent.Parent as Window).Position;
         openPoint = openPoint.WithX((int)(openPoint.X + this.Bounds.Width/2 - tagWindow.Width/2));
         openPoint = openPoint.WithY((int)(openPoint.Y + this.Bounds.Height/2 - tagWindow.Height/2));
         tagWindow.Position = openPoint;
         tagWindow.ShowDialog(this.Parent.Parent.Parent as Window);
+        tagWindow.OpenTagWindow(tag);
         popup.Close();
       }
     }
