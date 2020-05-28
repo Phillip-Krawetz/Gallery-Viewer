@@ -1,4 +1,5 @@
-﻿using MediaPlayer.Storing.Repositories;
+﻿using MediaPlayer.Storing.Connectors;
+using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
 namespace MediaPlayer.Client.ViewModels
@@ -12,6 +13,7 @@ namespace MediaPlayer.Client.ViewModels
       CategoryRepository.Initialize();
       TagRepository.Initialize();
       DirectoryRepository.Initialize();
+      FileSystemConnector.EnsureCreated();
     }
 
     public ViewModelBase Content

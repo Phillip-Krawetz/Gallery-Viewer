@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using MediaPlayer.Domain.Variables;
 using ReactiveUI;
 
 namespace MediaPlayer.Client.ViewModels
@@ -7,22 +8,22 @@ namespace MediaPlayer.Client.ViewModels
   {
     public KeyGesture NextKey
     {
-      get => new KeyGesture(Key.Right, KeyModifiers.None);
+      get => Options.NextKey;
     }
 
     public KeyGesture PrevKey
     {
-      get => new KeyGesture(Key.Left, KeyModifiers.None);
+      get => Options.PrevKey;
     }
 
     public KeyGesture BackKey
     {
-      get => new KeyGesture(Key.Left, KeyModifiers.Control);
+      get => Options.BackKey;
     }
 
     public KeyGesture ConfirmKey
     {
-      get => new KeyGesture(Key.Enter, KeyModifiers.None);
+      get => Options.ConfirmKey;
     }
 
     public virtual void Next(){}
