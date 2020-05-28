@@ -9,12 +9,12 @@ namespace MediaPlayer.Domain.Utilities
 
     public static string ThumbnailCachePath()
     {
-      return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\")) + "Cache\\Thumbnails\\";
+      return Path.GetFullPath(AppContext.BaseDirectory) + "Cache\\Thumbnails\\";
     }
 
     public static string ThumbnailCachePath(string filename)
     {
-      return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\")) + "Cache\\Thumbnails\\" + GetName(filename) + ".jpeg";
+      return Path.GetFullPath(AppContext.BaseDirectory) + "Cache\\Thumbnails\\" + GetName(filename) + ".jpeg";
     }
 
     public static string GetName(string filename)
