@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Avalonia.Input;
@@ -16,6 +17,11 @@ namespace MediaPlayer.Domain.Variables
 
     public KeyGesture ConfirmKey {get; set; }
 
+    public static List<PropertyInfo> Properties
+    {
+      get => typeof(InitialOptions).GetProperties().ToList();
+    }
+
     public void SetDefaults()
     {
       Preload = false;
@@ -27,12 +33,23 @@ namespace MediaPlayer.Domain.Variables
 
     public InitialOptions(){}
 
+    public void CopyCurrent()
+    {
+      var properties = this.GetType().GetProperties();
+      foreach(var item in typeof(Options).GetProperties(BindingFlags.Public | BindingFlags.Static))
+      {
+        properties.Single(x => x.Name == item.Name).SetValue(this, item.GetValue(null));
+      }
+    }
+
     public void MapToOptions()
     {
       var properties = typeof(Options).GetProperties(BindingFlags.Public | BindingFlags.Static);
       foreach(var item in this.GetType().GetProperties())
       {
-        properties.Single(x => x.Name == item.Name).SetValue(null, item.GetValue(this));
+        if(properties.FirstOrDefault(x => x.Name == item.Name) != null){
+          properties.Single(x => x.Name == item.Name).SetValue(null, item.GetValue(this));
+        }
       }
     }
   }
