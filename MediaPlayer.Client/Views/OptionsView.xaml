@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+             x:Class="MediaPlayer.Client.Views.OptionsView">
+  <Grid Name="MainPanel" RowDefinitions="*,40">
+    <StackPanel Name="OptionsPanel" Grid.Row="0">
+    </StackPanel>
+    <Button Command="{Binding SaveOptions}" Grid.Row="1">Save</Button>
+  </Grid>
+</UserControl>

@@ -29,7 +29,7 @@ namespace MediaPlayer.Client.Views
             var optionsButton = this.Find<Button>("OptionsButton");
             optionsButton.Click += delegate
             {
-              Options.Preload = !Options.Preload;
+              (this.DataContext as MainWindowViewModel).Content = new OptionsViewModel();
             };
 
             mainContent = this.Find<UserControl>("MainContent");
