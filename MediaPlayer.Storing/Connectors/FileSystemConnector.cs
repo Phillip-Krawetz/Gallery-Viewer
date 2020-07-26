@@ -9,7 +9,7 @@ namespace MediaPlayer.Storing.Connectors
 {
   public class FileSystemConnector
   {
-    private static string configPath = Path.GetFullPath(AppContext.BaseDirectory)+"\\Config.json";
+    private static string configPath = Path.GetFullPath(AppContext.BaseDirectory)+"\\Options.json";
     public static bool EnsureCreated()
     {
       if(!File.Exists(configPath))
@@ -27,6 +27,18 @@ namespace MediaPlayer.Storing.Connectors
       var opt = new InitialOptions();
       opt.SetDefaults();
       opt.MapToOptions();
+      using(StreamWriter sw = new StreamWriter(configPath))
+      using(JsonWriter writer = new JsonTextWriter(sw))
+      {
+        serializer.Serialize(writer, opt);
+      }
+    }
+
+    public static void WriteOptions()
+    {
+      var serializer = new JsonSerializer();
+      var opt = new InitialOptions();
+      opt.CopyCurrent();
       using(StreamWriter sw = new StreamWriter(configPath))
       using(JsonWriter writer = new JsonTextWriter(sw))
       {
