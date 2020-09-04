@@ -78,9 +78,9 @@ namespace MediaPlayer.Storing.Repositories
     {
       foreach(var item in directories)
       {
-        if(item.ThumbPath == null && item.StartPath != null)
+        if(item.Thumb == null && item.StartPath != null)
         {
-         item.ThumbPath = CreateThumb(item.Name, item.StartPath);
+         item.Thumb = CreateThumb(item.ThumbPath, item.StartPath);
         }
       }
     }
@@ -109,8 +109,8 @@ namespace MediaPlayer.Storing.Repositories
           {
             temp = new DirectoryItem(){FolderPath = path};
             temp.StartPath = file;
-
-            temp.ThumbPath = CreateThumb(temp.Name, temp.StartPath);
+            temp.ThumbPath = temp.Name.GetHashCode().ToString();
+            temp.Thumb = CreateThumb(temp.ThumbPath, temp.StartPath);
             directories.Add(temp);
             connector.AddItem<DirectoryItem>(temp);
             break;
