@@ -9,6 +9,8 @@ namespace MediaPlayer.Domain.Variables
   {
     public bool Preload {get; set; }
 
+    public bool UseBackup { get; set; }
+
     public KeyGesture NextKey {get; set; }
 
     public KeyGesture PrevKey {get; set; }
@@ -25,6 +27,7 @@ namespace MediaPlayer.Domain.Variables
     public void SetDefaults()
     {
       Preload = false;
+      UseBackup = true;
       NextKey = new KeyGesture(Key.Right, KeyModifiers.None);
       PrevKey = new KeyGesture(Key.Left, KeyModifiers.None);
       BackKey = new KeyGesture(Key.Left, KeyModifiers.Control);

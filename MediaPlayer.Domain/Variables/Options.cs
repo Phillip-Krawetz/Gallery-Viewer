@@ -5,6 +5,8 @@ namespace MediaPlayer.Domain.Variables
   public class Options
   {
     public static bool Preload {get; set; }
+    
+    public static bool UseBackup { get; set; }
 
     public static KeyGesture NextKey {get; set; }
 

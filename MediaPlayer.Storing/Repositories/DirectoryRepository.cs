@@ -16,6 +16,7 @@ namespace MediaPlayer.Storing.Repositories
   public class DirectoryRepository
   {
     private static SqlConnector connector = new SqlConnector();
+    private static FileSystemConnector backupConnector = new FileSystemConnector();
     private static ConcurrentBag<DirectoryItem> directories;
     public List<DirectoryItem> Directories { get => directories.OrderBy(x => x.FolderPath).ToList(); }
 
@@ -49,6 +50,10 @@ namespace MediaPlayer.Storing.Repositories
         };
         item.AddTag(tag);
         connector.AddItem<DirectoryTag>(dT);
+        if(Options.UseBackup)
+        {
+          backupConnector.UpdateTags(item);
+        }
       }
     }
 
@@ -58,6 +63,10 @@ namespace MediaPlayer.Storing.Repositories
       {
         item.Tags.Remove(tag);
         connector.RemoveItem<DirectoryTag>(new DirectoryTag(){DirectoryItemId = item.Id, TagId = tag.Id});
+        if(Options.UseBackup)
+        {
+          backupConnector.UpdateTags(item);
+        }
       }
     }
 

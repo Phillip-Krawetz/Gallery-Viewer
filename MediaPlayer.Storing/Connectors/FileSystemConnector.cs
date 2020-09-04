@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using MediaPlayer.Domain.Models;
 using MediaPlayer.Domain.Variables;
 using MediaPlayer.Storing.Converters;
 using Newtonsoft.Json;
@@ -64,6 +65,17 @@ namespace MediaPlayer.Storing.Connectors
       var temp = new List<T>();
       JsonConvert.DeserializeObject<T>(path);
       return temp;
+    }
+
+    public void UpdateTags(DirectoryItem item)
+    {
+      using(StreamWriter sw = new StreamWriter(item.FolderPath + "\\tags.txt"))
+      {
+        foreach(var tag in item.Tags)
+        {
+          sw.WriteLine(tag.Category.Name + ":" + tag.Name);
+        }
+      }
     }
   }
 }
