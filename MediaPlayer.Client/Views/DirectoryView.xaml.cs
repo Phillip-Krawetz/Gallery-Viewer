@@ -207,13 +207,18 @@ namespace MediaPlayer.Client.Views
       {
         if(dc.GetType() == typeof(DirectoryItem))
         {
-          SaveLastRowPosition(sender, args);
-          var temp = (DirectoryItem)dc;
-          if(File.Exists(temp.StartPath))
+          switch(args.PointerPressedEventArgs.GetCurrentPoint(null).Properties.PointerUpdateKind)
           {
-            var vm = new ImageViewModel(temp.StartPath);
-            var t = (MainWindowViewModel)this.Parent.DataContext;
-            t.Content = vm;
+            case(PointerUpdateKind.LeftButtonPressed):
+              SaveLastRowPosition(sender, args);
+              var temp = (DirectoryItem)dc;
+              if(File.Exists(temp.StartPath))
+              {
+                var vm = new ImageViewModel(temp.StartPath);
+                var t = (MainWindowViewModel)this.Parent.DataContext;
+                t.Content = vm;
+              }
+              break;
           }
         }
         return;
