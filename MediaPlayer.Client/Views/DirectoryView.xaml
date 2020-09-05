@@ -102,6 +102,7 @@
     </DataGrid>
     <Popup Name="Popup" StaysOpen="False">
       <StackPanel Margin="5" Spacing="5">
+        <TextBlock Text="Exclude" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagExclude"/>
         <TextBlock Text="Edit" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagEdit"/>
         <TextBlock Text="Remove" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagRemove"/>
       </StackPanel>

@@ -75,6 +75,9 @@ namespace MediaPlayer.Client.Views
           popup.PlacementTarget = sender as Control;
           popup.Open();
           break;
+        case(PointerUpdateKind.MiddleButtonPressed):
+          dc.AddFilter(tag as Tag, true);
+          break;
       }
     }
 
@@ -91,6 +94,18 @@ namespace MediaPlayer.Client.Views
         tagWindow.Position = openPoint;
         tagWindow.ShowDialog(this.Parent.Parent.Parent as Window);
         tagWindow.OpenTagWindow(tag);
+        popup.Close();
+      }
+    }
+
+    private void TagExclude(object sender, PointerPressedEventArgs args)
+    {
+      var popup = (sender as TextBlock).Parent.Parent as Popup;
+      if(popup != null)
+      {
+        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
+        var dc = this.DataContext as DirectoryViewModel;
+        dc.ManualFilter(tag.Name, true);
         popup.Close();
       }
     }
