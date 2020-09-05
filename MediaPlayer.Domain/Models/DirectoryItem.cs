@@ -40,8 +40,12 @@ namespace MediaPlayer.Domain.Models
       SortTags();
     }
 
-    public void SortTags()
+    public void SortTags(bool ForceUpdate = false)
     {
+      if(ForceUpdate)
+      {
+        this.ForceUpdate();
+      }
       for(int i = 0; i < tags.Count; i++)
       {
         for(int j = 0; j < tags.Count - 1; j++)
@@ -62,6 +66,13 @@ namespace MediaPlayer.Domain.Models
           }
         }
       }
+    }
+
+    private void ForceUpdate()
+    {
+      var temp = new Tag();
+      tags.Add(temp);
+      tags.Remove(temp);
     }
 
     public DirectoryItem()

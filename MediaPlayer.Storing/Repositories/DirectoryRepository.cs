@@ -74,7 +74,7 @@ namespace MediaPlayer.Storing.Repositories
     {
       foreach(var item in directories.Where(x => x.Tags.Contains(tag)))
       {
-        item.SortTags();
+        item.SortTags(true);
         if(Options.UseBackup)
         {
           UpdateBackups(item);
