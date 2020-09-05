@@ -75,7 +75,16 @@ namespace MediaPlayer.Storing.Repositories
       foreach(var item in directories.Where(x => x.Tags.Contains(tag)))
       {
         item.SortTags();
+        if(Options.UseBackup)
+        {
+          UpdateBackups(item);
+        }
       }
+    }
+
+    private static void UpdateBackups(DirectoryItem item)
+    {
+      backupConnector.UpdateTags(item);
     }
 
     private static void MapTags()
