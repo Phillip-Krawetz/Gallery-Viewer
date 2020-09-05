@@ -9,6 +9,7 @@
   <DockPanel Name="MainPanel">
     <DockPanel.Resources>
       <local:BitmapValueConverter x:Key="bitmapConverter"/>
+      <local:FilterConverter x:Key="filterConverter"/>
     </DockPanel.Resources>
     <StackPanel Name="FilterList" DockPanel.Dock="Right" Width="100" Background="DarkSlateGray">
       <TextBlock Text="Filters:"/>
@@ -16,7 +17,9 @@
         <ListBox Items="{Binding Filters}">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <TextBlock Text="{Binding Tag.Name}" PointerPressed="RemoveFilter"/>
+              <TextBlock Text="{Binding Tag.Name}" 
+                          Foreground="{Binding Exclude, Converter={StaticResource filterConverter}}"
+                          PointerPressed="RemoveFilter"/>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
