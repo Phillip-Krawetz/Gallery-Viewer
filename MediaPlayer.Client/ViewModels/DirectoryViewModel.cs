@@ -37,7 +37,7 @@ namespace MediaPlayer.Client.ViewModels
             {
               if(inclusions.Count() != Filters.Count())
               {
-                if(!temp.IsSupersetOf(Filters.Where(x => x.Exclude).Select(x => x.Tag))){
+                if(!temp.Intersect(Filters.Where(x => x.Exclude).Select(x => x.Tag)).Any()){
                   return true;
                 }
               }
