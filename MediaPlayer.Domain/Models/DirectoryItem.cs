@@ -37,11 +37,26 @@ namespace MediaPlayer.Domain.Models
     public void AddTag(Tag tag)
     {
       tags.Add(tag);
+      SortTags();
+    }
+
+    public void SortTags()
+    {
       for(int i = 0; i < tags.Count; i++)
       {
         for(int j = 0; j < tags.Count - 1; j++)
         {
           if(tags[j].Name.CompareTo(tags[j + 1].Name) > 0)
+          {
+            tags.Move(j, j+1);
+          }
+        }
+      }
+      for(int i = 0; i < tags.Count; i++)
+      {
+        for(int j = 0; j < tags.Count - 1; j++)
+        {
+          if(tags[j].Category.Name.CompareTo(tags[j + 1].Category.Name) > 0)
           {
             tags.Move(j, j+1);
           }
