@@ -70,6 +70,14 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
+    public static void SortTags(Tag tag)
+    {
+      foreach(var item in directories.Where(x => x.Tags.Contains(tag)))
+      {
+        item.SortTags();
+      }
+    }
+
     private static void MapTags()
     {
       var tags = connector.GetTable<DirectoryTag>();

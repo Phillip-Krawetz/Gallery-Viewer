@@ -1,9 +1,11 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.ViewModels;
 using MediaPlayer.Domain.Models;
+using MediaPlayer.Storing.Repositories;
 
 namespace MediaPlayer.Client.Views
 {
@@ -34,6 +36,7 @@ namespace MediaPlayer.Client.Views
       this.Closing += (s, e) =>
       {
         Hide();
+        DirectoryRepository.SortTags(tag);
         e.Cancel = true;
       };
     }
@@ -48,7 +51,7 @@ namespace MediaPlayer.Client.Views
       if(args.Property == Button.IsPressedProperty && !(bool)args.NewValue)
       {
         (this.DataContext as TagWindowViewModel).SaveTag(tagName.Text, categoryList.SelectedItem as Category);
-        this.Hide();
+        this.Close();
       }
     }
   }
