@@ -22,6 +22,9 @@ namespace MediaPlayer.Storing
     protected override void OnModelCreating(ModelBuilder builder)
     {
       builder.Entity<DirectoryTag>().HasKey(x => new {x.DirectoryItemId, x.TagId});
+      builder.Entity<Category>().HasData(
+        new Category(){Id = 1}
+      );
     }
 
     public MediaPlayerDbContext()
