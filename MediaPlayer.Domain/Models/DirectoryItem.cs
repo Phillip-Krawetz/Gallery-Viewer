@@ -11,7 +11,6 @@ namespace MediaPlayer.Domain.Models
     public string FolderPath { get; set; }
     [NotMapped]
     public Bitmap Thumb { get; set; }
-    public string ThumbPath { get; set; }
     public string StartPath { get; set; }
     public string Name 
     { 
