@@ -11,13 +11,14 @@ using ReactiveUI;
 using System.Threading;
 using MediaPlayer.Domain.Utilities;
 using System.Collections.Concurrent;
+using MediaPlayer.Client.Models;
 
 namespace MediaPlayer.Client.ViewModels
 {
   public class DirectoryViewModel : ViewModelBase
   {
     private ObservableCollection<DirectoryItem> items;
-    private ObservableCollection<Tag> filters;
+    private ObservableCollection<Filter> filters;
     public ObservableCollection<DirectoryItem> Items 
     { 
       get
@@ -26,11 +27,31 @@ namespace MediaPlayer.Client.ViewModels
         {
           return items;
         }
-        return new ObservableCollection<DirectoryItem>(items.Where(x => (new HashSet<Tag>(x.Tags)).IsSupersetOf(filters)));
+        var temp = new HashSet<Tag>();
+        return new ObservableCollection<DirectoryItem>(
+          items.Where(x => 
+          {
+            var temp = new HashSet<Tag>(x.Tags);
+            var inclusions = Filters.Where(x => !x.Exclude).Select(x => x.Tag);
+            if(temp.IsSupersetOf(inclusions))
+            {
+              if(inclusions.Count() != Filters.Count())
+              {
+                if(!temp.IsSupersetOf(Filters.Where(x => x.Exclude).Select(x => x.Tag))){
+                  return true;
+                }
+              }
+              else
+              {
+                return true;
+              }
+            }
+            return false;
+          }));
       }
       set => this.RaiseAndSetIfChanged(ref items, value); 
     }
-    public ObservableCollection<Tag> Filters 
+    public ObservableCollection<Filter> Filters 
     { 
       get => filters;
       set => this.RaiseAndSetIfChanged(ref filters, value);
@@ -53,20 +74,29 @@ namespace MediaPlayer.Client.ViewModels
 
     public DirectoryViewModel(){
       Items = new ObservableCollection<DirectoryItem>(directoryRepo.Directories.OrderBy(x => x.FolderPath));
-      filters = new ObservableCollection<Tag>();
+      filters = new ObservableCollection<Filter>();
     }
 
-    public void AddFilter(Tag tag)
+    public void AddFilter(Tag tag, bool exclude = false)
     {
-      Filters.Add(tag);
+      Filters.Add(new Filter(tag, exclude));
       this.RaisePropertyChanged("Items");
     }
 
-    public void RemoveFilter(Tag tag)
+    public void ManualFilter(string tag, bool exclude)
     {
-      if(Filters.Contains(tag))
+      var temp = new Tag();
+      if(tagRepo.TryGetTag(tag, ref temp))
       {
-        Filters.Remove(tag);
+        AddFilter(temp, exclude);
+      }
+    }
+
+    public void RemoveFilter(Filter filter)
+    {
+      if(Filters.Contains(filter))
+      {
+        Filters.Remove(filter);
         this.RaisePropertyChanged("Items");
       }
     }

@@ -16,11 +16,27 @@
         <ListBox Items="{Binding Filters}">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <TextBlock Text="{Binding Name}" PointerPressed="RemoveFilter"/>
+              <TextBlock Text="{Binding Tag.Name}" PointerPressed="RemoveFilter"/>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
       </ScrollViewer>
+      <AutoCompleteBox Name="ManualFilter" Watermark="Filter Tags" 
+                        MinimumPopulateDelay="0.35" MaxDropDownHeight="100"
+                        Items="{Binding #MainPanel.DataContext.TagNameList}">
+      </AutoCompleteBox>
+      <TextBlock Name="AddManualFilter"
+                  Text="Add"
+                  PointerEnter="TagHover"
+                  PointerLeave="TagUnhover"
+                  PointerPressed="AddManualFilter"
+                  VerticalAlignment="Center"/>
+      <TextBlock Name="ExcludeManualFilter"
+                  Text="Exclude"
+                  PointerEnter="TagHover"
+                  PointerLeave="TagUnhover"
+                  PointerPressed="ExcludeManualFilter"
+                  VerticalAlignment="Center"/>
     </StackPanel>
     <Button DockPanel.Dock="Bottom" Command="{Binding ChangeDirectory}">Change Directory</Button> 
     <DataGrid Name="DirectoryGrid" Items="{Binding Items}" CellPointerPressed="SelectionHandler"

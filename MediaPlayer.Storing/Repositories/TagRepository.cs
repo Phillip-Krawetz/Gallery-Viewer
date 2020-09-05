@@ -67,6 +67,16 @@ namespace MediaPlayer.Storing.Repositories
       return t;
     }
 
+    public bool TryGetTag(string tagName, ref Tag tag)
+    {
+      if(TagExists(tagName))
+      {
+        tag = tags.First(x => x.Name == tagName);
+        return true;
+      }
+      return false;
+    }
+
     public void UpdateTag(Tag tag)
     {
       if(TagExists(tag.Id))

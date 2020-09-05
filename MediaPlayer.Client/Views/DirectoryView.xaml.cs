@@ -8,6 +8,7 @@ using MediaPlayer.Domain.Models;
 using MediaPlayer.Client.ViewModels;
 using System.IO;
 using Avalonia.VisualTree;
+using MediaPlayer.Client.Models;
 
 namespace MediaPlayer.Client.Views
 {
@@ -16,6 +17,7 @@ namespace MediaPlayer.Client.Views
     private DataGrid grid;
     private static object lastObject;
     private DockPanel control;
+    private AutoCompleteBox manualFilter;
     public DirectoryView()
     {
       InitializeComponent();
@@ -23,6 +25,7 @@ namespace MediaPlayer.Client.Views
       grid.PropertyChanged += SetOffset;
       control = this.FindControl<DockPanel>("MainPanel");
       control.PropertyChanged += SetGridHeight;
+      manualFilter = this.FindControl<AutoCompleteBox>("ManualFilter");
     }
 
     private void InitializeComponent()
@@ -139,7 +142,25 @@ namespace MediaPlayer.Client.Views
     private void RemoveFilter(object sender, PointerPressedEventArgs args)
     {
       var dc = this.DataContext as DirectoryViewModel;
-      dc.RemoveFilter((sender as StyledElement).DataContext as Tag);
+      dc.RemoveFilter((sender as StyledElement).DataContext as Filter);
+    }
+
+    private void AddManualFilter(object sender, PointerPressedEventArgs args)
+    {
+      var dc = this.DataContext as DirectoryViewModel;
+      dc.ManualFilter(manualFilter.Text, false);
+      manualFilter.Text = "";
+      manualFilter.ClearValue(AutoCompleteBox.TextProperty);
+      args.Handled = true;
+    }
+
+    private void ExcludeManualFilter(object sender, PointerPressedEventArgs args)
+    {
+      var dc = this.DataContext as DirectoryViewModel;
+      dc.ManualFilter(manualFilter.Text, true);
+      manualFilter.Text = "";
+      manualFilter.ClearValue(AutoCompleteBox.TextProperty);
+      args.Handled = true;
     }
 
     private void SaveLastRowPosition(object sender, DataGridCellPointerPressedEventArgs args)
