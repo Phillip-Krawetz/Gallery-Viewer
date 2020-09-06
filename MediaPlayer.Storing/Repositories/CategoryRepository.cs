@@ -55,9 +55,9 @@ namespace MediaPlayer.Storing.Repositories
 
     public Category GetOrNew(string category)
     {
-      if(!String.IsNullOrWhiteSpace(category))
+      if(String.IsNullOrWhiteSpace(category))
       {
-        return null;
+        return Default;
       }
       if(CategoryExists(category))
       {
