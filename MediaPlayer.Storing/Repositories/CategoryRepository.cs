@@ -59,8 +59,8 @@ namespace MediaPlayer.Storing.Repositories
         return categories.First(x => x.Value.Name == category).Value;
       }
       var c = new Category{Name = category};
+      c.Id = connector.AddItem<Category>(c);
       categories.TryAdd(c.Id, c);
-      connector.AddItem<Category>(c);
       return c;
     }
 
