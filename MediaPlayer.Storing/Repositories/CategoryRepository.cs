@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,10 @@ namespace MediaPlayer.Storing.Repositories
 
     public Category GetOrNew(string category)
     {
+      if(!String.IsNullOrWhiteSpace(category))
+      {
+        return null;
+      }
       if(CategoryExists(category))
       {
         return categories.First(x => x.Value.Name == category).Value;
