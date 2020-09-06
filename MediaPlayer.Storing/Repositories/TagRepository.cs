@@ -55,13 +55,13 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
-    public Tag GetOrNew(string tag)
+    public Tag GetOrNew(string tag, string category = null)
     {
       if(TagExists(tag))
       {
         return tags.First(x => x.Name == tag);
       }
-      var t = new Tag{Name = tag, Category = categoryRepository.Default};
+      var t = new Tag{Name = tag, Category = categoryRepository.GetOrNew(category) ?? categoryRepository.Default};
       tags.Add(t);
       connector.UpdateItem<Tag>(t);
       return t;
