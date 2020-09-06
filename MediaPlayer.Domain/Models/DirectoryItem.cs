@@ -35,6 +35,10 @@ namespace MediaPlayer.Domain.Models
 
     public void AddTag(Tag tag)
     {
+      if(tags.Contains(tag))
+      {
+        return;
+      }
       tags.Add(tag);
       SortTags();
     }
