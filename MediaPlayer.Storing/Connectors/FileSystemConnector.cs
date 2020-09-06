@@ -77,5 +77,32 @@ namespace MediaPlayer.Storing.Connectors
         }
       }
     }
+
+    public Dictionary<string,List<string>> ReadTags(string path)
+    {
+      path += "\\tags.txt";
+      var tagList = new Dictionary<string,List<string>>();
+      var temp = "";
+      if(!File.Exists(path))
+      {
+        return tagList;
+      }
+      using(StreamReader sr = new StreamReader(path))
+      {
+        while(!sr.EndOfStream){
+          temp = sr.ReadLine();
+          var split = temp.Split(':');
+          if(tagList.ContainsKey(split[0]))
+          {
+            tagList[split[0]].Add(split[1]);
+          }
+          else
+          {
+            tagList.TryAdd(split[0],new List<string>(){split[1]});
+          }
+        }
+      }
+      return tagList;
+    }
   }
 }
