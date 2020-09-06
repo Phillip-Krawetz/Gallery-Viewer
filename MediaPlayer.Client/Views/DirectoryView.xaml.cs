@@ -219,6 +219,9 @@ namespace MediaPlayer.Client.Views
                 t.Content = vm;
               }
               break;
+            case(PointerUpdateKind.RightButtonPressed):
+              (this.DataContext as DirectoryViewModel).LoadBackup((DirectoryItem)dc);
+              break;
           }
         }
         return;
