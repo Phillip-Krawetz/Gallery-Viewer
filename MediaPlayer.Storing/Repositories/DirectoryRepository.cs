@@ -39,7 +39,7 @@ namespace MediaPlayer.Storing.Repositories
       return false;
     }
 
-    public void AddTag(ref DirectoryItem item, Tag tag)
+    public void AddTag(DirectoryItem item, Tag tag)
     {
       if(!item.Tags.Any(x => x.Id == tag.Id))
       {
@@ -78,6 +78,25 @@ namespace MediaPlayer.Storing.Repositories
         if(Options.UseBackup)
         {
           UpdateBackups(item);
+        }
+      }
+    }
+
+    public void ReadFromBackups(DirectoryItem Directory = null)
+    {
+      var tagRepo = new TagRepository();
+      Directory = null;
+      var backupDirectories = (Directory != null) ? new List<DirectoryItem>(){Directory} : directories.ToList();
+
+      foreach(var item in backupDirectories)
+      {
+        var temp = backupConnector.ReadTags(item.FolderPath);
+        foreach(var category in temp)
+        {
+          foreach(var tag in category.Value)
+          {
+            AddTag(item, tagRepo.GetOrNew(tag, category.Key));
+          }
         }
       }
     }

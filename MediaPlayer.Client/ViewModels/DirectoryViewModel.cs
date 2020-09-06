@@ -147,7 +147,7 @@ namespace MediaPlayer.Client.ViewModels
         if(Items.Contains(item))
         {
           var newTag = tagRepo.GetOrNew(tag);
-          directoryRepo.AddTag(ref item, newTag);
+          directoryRepo.AddTag(item, newTag);
           this.RaisePropertyChanged("TagNameList");
         }
       }
@@ -156,6 +156,11 @@ namespace MediaPlayer.Client.ViewModels
     public void RemoveTag(DirectoryItem item, Tag tag)
     {
       directoryRepo.RemoveTag(item, tag);
+    }
+
+    public void LoadBackup(DirectoryItem item = null)
+    {
+      directoryRepo.ReadFromBackups(item);
     }
 
     public async void ChangeDirectory()
