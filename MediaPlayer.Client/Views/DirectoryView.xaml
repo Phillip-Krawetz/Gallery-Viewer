@@ -69,12 +69,13 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <TextBlock Text="{Binding Name}"
-                                  PointerEnter="TagHover"
-                                  PointerLeave="TagUnhover"
-                                  PointerPressed="TagHandler"
-                                  Foreground="{Binding Category.Color}"
-                                  Margin="2"/>
+                      <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Margin="1">
+                        <TextBlock Text="{Binding Name}"
+                                    PointerEnter="TagHover"
+                                    PointerLeave="TagUnhover"
+                                    PointerPressed="TagHandler"
+                                    Foreground="{Binding Category.Color}"/>
+                      </Border>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
