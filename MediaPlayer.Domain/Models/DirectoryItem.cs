@@ -22,7 +22,7 @@ namespace MediaPlayer.Domain.Models
       {
         Text = Name,
         TextAlignment = TextAlignment.Center,
-        Wrapping = TextWrapping.Wrap
+        TextWrapping = TextWrapping.Wrap
       };
     }
     private ObservableCollection<Tag> tags;

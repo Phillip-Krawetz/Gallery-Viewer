@@ -5,6 +5,7 @@ using Avalonia.Platform;
 using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 
 namespace MediaPlayer.Client.Converters
 {
@@ -14,7 +15,7 @@ namespace MediaPlayer.Client.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string && targetType == typeof(IBitmap))
+            if (value is string && targetType == typeof(IImage))
             {
                 var uri = new Uri((string)value, UriKind.RelativeOrAbsolute);
                 var scheme = uri.IsAbsoluteUri ? uri.Scheme : "file";

@@ -19,7 +19,7 @@
             PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Row="0" Grid.Column="1" 
             Grid.ColumnSpan="3" HorizontalAlignment="Center">
       <Border.Transitions>
-        <DoubleTransition Property="Opacity" Duration="0:0:0.25"/>
+        
       </Border.Transitions>
       <TextBlock Text="{Binding ImagePath, Converter={StaticResource pathConverter}}" Foreground="White"
                   HorizontalAlignment="Center"/>
