@@ -22,7 +22,10 @@
       </Style>
     </Grid.Styles>
     <DockPanel Name="MainPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
-      <Image Name="img" Stretch="Uniform"/>
+      <ScrollViewer Name="ImageScroll" HorizontalScrollBarVisibility="1"
+                    VerticalScrollBarVisibility="1">
+        <Image Name="img" Stretch="None"/>
+      </ScrollViewer>
     </DockPanel>
     <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Opacity="1"
             PointerEnter="HoverHandler" PointerLeave="DehoverHandler" Grid.Row="0" Grid.Column="1" 
