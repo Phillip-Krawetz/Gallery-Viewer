@@ -9,9 +9,10 @@ namespace MediaPlayer.Client.Converters
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if(value!=null)
+      if(value!=null && value is KeyGesture)
       {
-        return value.ToString();
+        var kg = value as KeyGesture;
+        return kg.KeyModifiers.ToString() + '+' + kg.Key.ToString();
       }
       return "";
     }
@@ -19,7 +20,7 @@ namespace MediaPlayer.Client.Converters
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
       var valString = value as string;
-      var split = valString.Split(" + ");
+      var split = valString.Split("+");
       var myKey = new Key();
       var myModifier = new KeyModifiers();
       switch(split.Length)
