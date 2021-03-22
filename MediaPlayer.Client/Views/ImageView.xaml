@@ -24,7 +24,7 @@
     <DockPanel Name="MainPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
       <ScrollViewer Name="ImageScroll" HorizontalScrollBarVisibility="1"
                     VerticalScrollBarVisibility="1">
-        <Image Name="img" Stretch="None"/>
+        <Image Name="img" Stretch="Uniform"/>
       </ScrollViewer>
     </DockPanel>
     <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Opacity="1"

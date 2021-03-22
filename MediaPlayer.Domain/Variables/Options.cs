@@ -8,6 +8,8 @@ namespace MediaPlayer.Domain.Variables
     
     public static bool UseBackup { get; set; }
 
+    public static bool Resize { get; set; }
+
     public static KeyGesture NextKey {get; set; }
 
     public static KeyGesture PrevKey {get; set; }

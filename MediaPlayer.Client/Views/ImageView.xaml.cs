@@ -34,6 +34,16 @@ namespace MediaPlayer.Client.Views
       if(args.Property == DockPanel.BoundsProperty && (Rect?)args.OldValue == default(Rect))
       {
         var img = this.FindControl<Image>("img");
+        var scroll = this.FindControl<ScrollViewer>("ImageScroll");
+        if(Options.Resize)
+        {
+          scroll.PropertyChanged += ResizeImage;
+        }
+        else
+        {
+          img.Height = double.NaN;
+          img.Width = double.NaN;
+        }
         if(Options.Preload)
         {
           img.Bind(Image.SourceProperty, new Binding("CurrentImage"));
@@ -43,6 +53,16 @@ namespace MediaPlayer.Client.Views
           var temp = new BitmapValueConverter();
           img.Bind(Image.SourceProperty, new Binding("ImagePath"){Converter = temp});
         }
+      }
+    }
+
+    public void ResizeImage(object sender, AvaloniaPropertyChangedEventArgs args)
+    {
+      if(args.Property == ScrollViewer.ViewportProperty)
+      {
+        var img = this.FindControl<Image>("img");
+        img.Height = (sender as ScrollViewer).Viewport.Height;
+        img.Width = (sender as ScrollViewer).Viewport.Width;
       }
     }
 
