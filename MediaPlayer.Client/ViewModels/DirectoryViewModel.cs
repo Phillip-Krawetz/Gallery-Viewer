@@ -27,11 +27,10 @@ namespace MediaPlayer.Client.ViewModels
         {
           return items;
         }
-        var temp = new HashSet<Tag>();
         return new ObservableCollection<DirectoryItem>(
           items.Where(x => 
           {
-            var temp = new HashSet<Tag>(x.Tags);
+            var temp = new HashSet<Tag>(x.TagsWithParents);
             var inclusions = Filters.Where(x => !x.Exclude).Select(x => x.Tag);
             if(temp.IsSupersetOf(inclusions))
             {

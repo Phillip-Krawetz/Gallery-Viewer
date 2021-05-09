@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MediaPlayer.Domain.Abstracts;
@@ -31,6 +32,25 @@ namespace MediaPlayer.Domain.Models
     { 
       get => tags;
       set => tags = value;
+    }
+
+    [NotMapped]
+    private ObservableCollection<Tag> parentTags
+    {
+      get
+      {
+        var temp = new ObservableCollection<Tag>();
+        foreach(var tag in Tags)
+        {
+          temp.Add(tag.ParentTag);
+        }
+        return temp;
+      }
+    }
+    [NotMapped]
+    public ObservableCollection<Tag> TagsWithParents
+    {
+      get => new ObservableCollection<Tag>(Tags.Union(parentTags));
     }
 
     public void AddTag(Tag tag)
