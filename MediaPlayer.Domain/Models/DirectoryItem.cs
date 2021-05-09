@@ -42,7 +42,11 @@ namespace MediaPlayer.Domain.Models
         var temp = new ObservableCollection<Tag>();
         foreach(var tag in Tags)
         {
-          temp.Add(tag.ParentTag);
+          var iterativeTag = tag;
+          while(iterativeTag.ParentTag != null){
+            temp.Add(iterativeTag.ParentTag);
+            iterativeTag = iterativeTag.ParentTag;
+          }
         }
         return temp;
       }
