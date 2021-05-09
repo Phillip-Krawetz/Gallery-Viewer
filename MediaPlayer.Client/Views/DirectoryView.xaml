@@ -12,6 +12,7 @@
       <local:FilterConverter x:Key="filterConverter"/>
     </DockPanel.Resources>
     <StackPanel Name="FilterList" DockPanel.Dock="Right" Width="100" Background="DarkSlateGray">
+      <Button Name="RandomButton">Random</Button>
       <TextBlock Text="Filters:"/>
       <ScrollViewer>
         <ListBox Items="{Binding Filters}">

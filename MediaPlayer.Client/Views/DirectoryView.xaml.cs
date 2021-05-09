@@ -9,6 +9,7 @@ using MediaPlayer.Client.ViewModels;
 using System.IO;
 using Avalonia.VisualTree;
 using MediaPlayer.Client.Models;
+using MediaPlayer.Domain.Utilities;
 
 namespace MediaPlayer.Client.Views
 {
@@ -26,6 +27,11 @@ namespace MediaPlayer.Client.Views
       control = this.FindControl<DockPanel>("MainPanel");
       control.PropertyChanged += SetGridHeight;
       manualFilter = this.FindControl<AutoCompleteBox>("ManualFilter");
+      var randomButton = this.FindControl<Button>("RandomButton");
+      randomButton.Click += delegate
+      {
+        this.SelectRandom();
+      };
     }
 
     private void InitializeComponent()
@@ -212,12 +218,7 @@ namespace MediaPlayer.Client.Views
             case(PointerUpdateKind.LeftButtonPressed):
               SaveLastRowPosition(sender, args);
               var temp = (DirectoryItem)dc;
-              if(File.Exists(temp.StartPath))
-              {
-                var vm = new ImageViewModel(temp.StartPath);
-                var t = (MainWindowViewModel)this.Parent.DataContext;
-                t.Content = vm;
-              }
+              OpenDirectory(temp);
               break;
             case(PointerUpdateKind.RightButtonPressed):
               (this.DataContext as DirectoryViewModel).LoadBackup((DirectoryItem)dc);
@@ -225,6 +226,23 @@ namespace MediaPlayer.Client.Views
           }
         }
         return;
+      }
+    }
+
+    private void SelectRandom()
+    {
+      var dc = this.DataContext as DirectoryViewModel;
+      var selection = dc.Items[NumberUtils.Rand.Next(dc.Items.Count)];
+      OpenDirectory(selection);
+    }
+
+    private void OpenDirectory(DirectoryItem item)
+    {
+      if(File.Exists(item.StartPath))
+      {
+        var vm = new ImageViewModel(item.StartPath);
+        var t = (MainWindowViewModel)this.Parent.DataContext;
+        t.Content = vm;
       }
     }
   }
