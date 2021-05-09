@@ -126,14 +126,14 @@ namespace MediaPlayer.Client.Views
     private void TagHover(object sender, PointerEventArgs args)
     {
       var temp = (TextBlock)sender;
-      temp.FontStyle = Avalonia.Media.FontStyle.Italic;
+      temp.FontWeight = Avalonia.Media.FontWeight.Bold;
       args.Handled = true;
     }
 
     private void TagUnhover(object sender, PointerEventArgs args)
     {
       var temp = (TextBlock)sender;
-      temp.FontStyle = Avalonia.Media.FontStyle.Normal;
+      temp.FontWeight = Avalonia.Media.FontWeight.Normal;
       args.Handled = true;
     }
 
