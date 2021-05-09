@@ -95,7 +95,7 @@ namespace MediaPlayer.Storing.Repositories
         {
           foreach(var tag in category.Value)
           {
-            AddTag(item, tagRepo.GetOrNew(tag, category.Key));
+            AddTag(item, tagRepo.GetOrNew(tag.Item1, category.Key, tag.Item2));
           }
         }
       }

@@ -4,6 +4,7 @@ using System.Linq;
 using MediaPlayer.Storing.Connectors;
 using System.Collections.Concurrent;
 using System.Collections.Specialized;
+using System;
 
 namespace MediaPlayer.Storing.Repositories
 {
@@ -55,13 +56,20 @@ namespace MediaPlayer.Storing.Repositories
       }
     }
 
-    public Tag GetOrNew(string tag, string category = null)
+    public Tag GetOrNew(string tag, string category = null, string parenttag = null)
     {
       if(TagExists(tag))
       {
-        return tags.First(x => x.Name == tag);
+        var returnTag = tags.First(x => x.Name == tag);
+        if(returnTag.ParentTag == null && !String.IsNullOrWhiteSpace(parenttag))
+        {
+          returnTag.ParentTag = GetOrNew(parenttag, category);
+          connector.UpdateItem<Tag>(returnTag);
+        }
+        return returnTag;
       }
-      var t = new Tag{Name = tag, Category = categoryRepository.GetOrNew(category) ?? categoryRepository.Default};
+      var t = new Tag{Name = tag, Category = categoryRepository.GetOrNew(category) ?? categoryRepository.Default,
+              ParentTag = (!System.String.IsNullOrWhiteSpace(parenttag) ? GetOrNew(parenttag, category) : null)};
       tags.Add(t);
       connector.UpdateItem<Tag>(t);
       return t;
@@ -85,6 +93,7 @@ namespace MediaPlayer.Storing.Repositories
         temp.Name = tag.Name;
         temp.Category = tag.Category;
         temp.CategoryId = tag.CategoryId;
+        temp.ParentTag = tag.ParentTag;
         connector.UpdateItem<Tag>(temp);
       }
     }

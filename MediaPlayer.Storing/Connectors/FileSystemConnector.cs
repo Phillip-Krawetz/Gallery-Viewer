@@ -73,15 +73,20 @@ namespace MediaPlayer.Storing.Connectors
       {
         foreach(var tag in item.Tags)
         {
-          sw.WriteLine(tag.Category.Name + ":" + tag.Name);
+          var ParentTag = "";
+          if(tag.ParentTag != null)
+          {
+            ParentTag = tag.ParentTag.Name;
+          }
+          sw.WriteLine(tag.Category.Name + ":" + tag.Name + ":" + ParentTag);
         }
       }
     }
 
-    public Dictionary<string,List<string>> ReadTags(string path)
+    public Dictionary<string,List<(string, string)>> ReadTags(string path)
     {
       path += "\\tags.txt";
-      var tagList = new Dictionary<string,List<string>>();
+      var tagList = new Dictionary<string,List<(string, string)>>();
       var temp = "";
       if(!File.Exists(path))
       {
@@ -92,13 +97,18 @@ namespace MediaPlayer.Storing.Connectors
         while(!sr.EndOfStream){
           temp = sr.ReadLine();
           var split = temp.Split(':');
+          var split2 = "";
+          if(split.Length > 2)
+          {
+            split2 = split[2];
+          }
           if(tagList.ContainsKey(split[0]))
           {
-            tagList[split[0]].Add(split[1]);
+            tagList[split[0]].Add((split[1], split2));
           }
           else
           {
-            tagList.TryAdd(split[0],new List<string>(){split[1]});
+            tagList.TryAdd(split[0],new List<(string, string)>(){(split[1], split2)});
           }
         }
       }
