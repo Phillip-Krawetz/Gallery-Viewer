@@ -22,6 +22,13 @@ namespace MediaPlayer.Storing.Connectors
     {
       using(var db = new MediaPlayerDbContext())
       {
+        if(item is Tag)
+        {
+          if((item as Tag).ParentTag == null)
+          {
+            db.Entry(item).Reference("ParentTag").IsModified = true;
+          }
+        }
         db.Update(item as T);
         db.SaveChanges();
       }

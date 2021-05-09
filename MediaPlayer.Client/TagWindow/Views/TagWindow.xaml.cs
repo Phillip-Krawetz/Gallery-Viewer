@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -13,6 +14,7 @@ namespace MediaPlayer.Client.Views
   {
     private TextBox tagName;
     private ComboBox categoryList;
+    private ComboBox tagList;
     private static readonly TagWindow tagWindow = new TagWindow();
     public static TagWindow GetTagWindow
     {
@@ -32,6 +34,12 @@ namespace MediaPlayer.Client.Views
       tagName.Text = tag.Name;
       categoryList = this.FindControl<ComboBox>("CategoryList");
       categoryList.SelectedIndex = tag.Category.Id - 1;
+      tagList = this.FindControl<ComboBox>("ParentList");
+      tagList.SelectedIndex = 0;
+      if(tag.ParentTag != null)
+      {
+        tagList.SelectedIndex = tagList.Items.Cast<Tag>().ToList<Tag>().IndexOf(tag.ParentTag);
+      }
       this.FindControl<Button>("SaveButton").PropertyChanged += Save;
       this.Closing += (s, e) =>
       {
@@ -50,7 +58,8 @@ namespace MediaPlayer.Client.Views
     {
       if(args.Property == Button.IsPressedProperty && !(bool)args.NewValue)
       {
-        (this.DataContext as TagWindowViewModel).SaveTag(tagName.Text, categoryList.SelectedItem as Category);
+        (this.DataContext as TagWindowViewModel).SaveTag(tagName.Text, categoryList.SelectedItem as Category, 
+              tagList.SelectedItem as Tag);
         this.Close();
       }
     }
