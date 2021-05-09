@@ -43,7 +43,7 @@ namespace MediaPlayer.Domain.Models
         foreach(var tag in Tags)
         {
           var iterativeTag = tag;
-          while(iterativeTag.ParentTag != null){
+          while(iterativeTag.ParentTag != null && iterativeTag != iterativeTag.ParentTag){
             temp.Add(iterativeTag.ParentTag);
             iterativeTag = iterativeTag.ParentTag;
           }
