@@ -115,7 +115,7 @@ namespace MediaPlayer.Client.Views
       var popup = (sender as TextBlock).Parent.Parent as Popup;
       if(popup != null)
       {
-        var di = (popup.PlacementTarget as TextBlock).Parent.Parent.DataContext as DirectoryItem;
+        var di = (popup.PlacementTarget as TextBlock).Parent.Parent.Parent.DataContext as DirectoryItem;
         var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
         var vm = this.DataContext as DirectoryViewModel;
         vm.RemoveTag(di, tag);
