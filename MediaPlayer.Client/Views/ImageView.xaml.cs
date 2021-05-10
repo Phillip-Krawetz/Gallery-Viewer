@@ -22,6 +22,12 @@ namespace MediaPlayer.Client.Views
       InitializeComponent();
       imagePanel = this.FindControl<DockPanel>("MainPanel");
       imagePanel.PropertyChanged += ImageLoad;
+      var tagList = this.FindControl<ListBox>("TagList");
+      tagList.Width = 0;
+      if(Options.ShowTagSidebarOnImageView)
+      {
+        tagList.Width = 100;
+      }
     }
 
     private void InitializeComponent()

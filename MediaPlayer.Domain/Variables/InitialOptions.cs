@@ -11,6 +11,8 @@ namespace MediaPlayer.Domain.Variables
 
     public bool UseBackup { get; set; }
 
+    public bool ShowTagSidebarOnImageView { get; set; }
+
     public bool Resize { get; set; }
 
     public KeyGesture NextKey {get; set; }
@@ -30,6 +32,7 @@ namespace MediaPlayer.Domain.Variables
     {
       Preload = false;
       UseBackup = true;
+      ShowTagSidebarOnImageView = false;
       Resize = true;
       NextKey = new KeyGesture(Key.Right, KeyModifiers.None);
       PrevKey = new KeyGesture(Key.Left, KeyModifiers.None);
