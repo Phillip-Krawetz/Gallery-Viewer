@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.Converters;
 using MediaPlayer.Client.ViewModels;
+using MediaPlayer.Domain.Utilities;
 using MediaPlayer.Domain.Variables;
 
 namespace MediaPlayer.Client.Views
@@ -41,7 +42,7 @@ namespace MediaPlayer.Client.Views
         {
           var newRow = new WrapPanel();
           optionsPanel.Children.Add(newRow);
-          newRow.Children.Add(new TextBlock(){Text = item.Name});
+          newRow.Children.Add(new TextBlock(){Text = StringUtils.SplitCamelCase(item.Name)});
           var itemValue = item.GetValue((this.DataContext as OptionsViewModel).CurrentOptions, null);
           switch(typeDict.GetValueOrDefault(item.PropertyType))
           {
