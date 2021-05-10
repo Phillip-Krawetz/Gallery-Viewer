@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,13 @@ namespace MediaPlayer.Client.ViewModels
     public string ImagePath { 
       get => imagePath;
       set => this.RaiseAndSetIfChanged(ref imagePath, value);
+    }
+
+    private DirectoryItem GalleryDirectory;
+
+    public ObservableCollection<Tag> Tags 
+    { 
+      get => new ObservableCollection<Tag>(GalleryDirectory.Tags);
     }
 
     private List<string> myFiles = new List<string>();
@@ -50,9 +58,20 @@ namespace MediaPlayer.Client.ViewModels
       get => myFiles.Count.ToString(); 
     }
 
+    public ImageViewModel(DirectoryItem GalleryDirectory)
+    {
+      this.GalleryDirectory = GalleryDirectory;
+      this.ImagePath = GalleryDirectory.StartPath;
+      Initialize();
+    }
+
     public ImageViewModel(string ImagePath){
       this.ImagePath = ImagePath;
+      Initialize();
+    }
 
+    private void Initialize()
+    {
       if(Options.Preload)
       {
         this.Images = new ObservableConcurrentDictionary<int, Bitmap>();

@@ -240,7 +240,7 @@ namespace MediaPlayer.Client.Views
     {
       if(File.Exists(item.StartPath))
       {
-        var vm = new ImageViewModel(item.StartPath);
+        var vm = new ImageViewModel(item);
         var t = (MainWindowViewModel)this.Parent.DataContext;
         t.Content = vm;
       }
