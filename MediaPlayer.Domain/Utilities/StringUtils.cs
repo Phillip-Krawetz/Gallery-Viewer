@@ -6,7 +6,7 @@ namespace MediaPlayer.Domain.Utilities
   {
 
     //Split Camel Case function from Stackoverflow: 
-    //https://stackoverflow.com/questions/5796383/insert-spaces-between-words-on-a-camel-cased-token
+    //https://stackoverflow.com/a/5796793
     public static string SplitCamelCase(string input)
     {
       return Regex.Replace(
