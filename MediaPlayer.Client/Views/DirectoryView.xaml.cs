@@ -10,10 +10,11 @@ using System.IO;
 using Avalonia.VisualTree;
 using MediaPlayer.Client.Models;
 using MediaPlayer.Domain.Utilities;
+using MediaPlayer.Client.Abstracts;
 
 namespace MediaPlayer.Client.Views
 {
-  public class DirectoryView : UserControl
+  public class DirectoryView : AbstractUserControlWithTags
   {
     private DataGrid grid;
     private static object lastObject;
@@ -66,27 +67,6 @@ namespace MediaPlayer.Client.Views
       }
     }
 
-    private void TagHandler(object sender, PointerPressedEventArgs args)
-    {
-      var dc = this.DataContext as DirectoryViewModel;
-      var tag = (sender as StyledElement).DataContext;
-      switch(args.GetCurrentPoint(null).Properties.PointerUpdateKind)
-      {
-        case(PointerUpdateKind.LeftButtonPressed):
-          dc.AddFilter(tag as Tag);
-          break;
-
-        case(PointerUpdateKind.RightButtonPressed):
-          var popup = this.FindControl<Popup>("Popup");
-          popup.PlacementTarget = sender as Control;
-          popup.Open();
-          break;
-        case(PointerUpdateKind.MiddleButtonPressed):
-          dc.AddFilter(tag as Tag, true);
-          break;
-      }
-    }
-
     private void TagEdit(object sender, PointerPressedEventArgs args)
     {
       var popup = (sender as TextBlock).Parent.Parent as Popup;
@@ -127,20 +107,6 @@ namespace MediaPlayer.Client.Views
         vm.RemoveTag(di, tag);
         popup.Close();
       }
-    }
-
-    private void TagHover(object sender, PointerEventArgs args)
-    {
-      var temp = (TextBlock)sender;
-      temp.FontWeight = Avalonia.Media.FontWeight.Bold;
-      args.Handled = true;
-    }
-
-    private void TagUnhover(object sender, PointerEventArgs args)
-    {
-      var temp = (TextBlock)sender;
-      temp.FontWeight = Avalonia.Media.FontWeight.Normal;
-      args.Handled = true;
     }
 
     private void AddTag(object sender, PointerPressedEventArgs args)
@@ -244,6 +210,27 @@ namespace MediaPlayer.Client.Views
         var t = (MainWindowViewModel)this.Parent.DataContext;
         t.Content = vm;
       }
+    }
+
+    protected override void TagLeftClick(object sender, PointerPressedEventArgs args)
+    {
+      var tag = (sender as StyledElement).DataContext;
+      var dc = this.DataContext as DirectoryViewModel;
+      dc.AddFilter(tag as Tag);
+    }
+
+    protected override void TagRightClick(object sender, PointerPressedEventArgs args)
+    {
+      var popup = this.FindControl<Popup>("Popup");
+      popup.PlacementTarget = sender as Control;
+      popup.Open();
+    }
+
+    protected override void TagMiddleClick(object sender, PointerPressedEventArgs args)
+    {
+      var tag = (sender as StyledElement).DataContext;
+      var dc = this.DataContext as DirectoryViewModel;
+      dc.AddFilter(tag as Tag, true);
     }
   }
 }

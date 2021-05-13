@@ -12,10 +12,11 @@ using System.Threading;
 using MediaPlayer.Domain.Utilities;
 using System.Collections.Concurrent;
 using MediaPlayer.Client.Models;
+using MediaPlayer.Client.Abstracts;
 
 namespace MediaPlayer.Client.ViewModels
 {
-  public class DirectoryViewModel : ViewModelBase
+  public class DirectoryViewModel : AbstractViewModelBaseWithTags
   {
     private ObservableCollection<DirectoryItem> items;
     private ObservableCollection<Filter> filters;
@@ -54,16 +55,6 @@ namespace MediaPlayer.Client.ViewModels
     { 
       get => filters;
       set => this.RaiseAndSetIfChanged(ref filters, value);
-    }
-
-    public ObservableCollection<Tag> TagList
-    { 
-      get => new ObservableCollection<Tag>(TagRepository.Tags);
-    }
-
-    public List<string> TagNameList
-    {
-      get => TagList.Select(x => x.Name).ToList();
     }
 
     private TagRepository tagRepo = new TagRepository();
