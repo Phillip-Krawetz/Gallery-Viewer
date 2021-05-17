@@ -24,8 +24,10 @@ namespace MediaPlayer.Storing.Connectors
       {
         if(item is Tag)
         {
-          if((item as Tag).ParentTag == null)
+          var tag = item as Tag;
+          if(tag.ParentTag != null && tag.ParentTag.Id < 0)
           {
+            tag.ParentTag = null;
             db.Entry(item).Reference("ParentTag").IsModified = true;
           }
         }

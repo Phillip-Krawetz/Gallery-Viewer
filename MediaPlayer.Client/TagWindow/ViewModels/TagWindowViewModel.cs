@@ -34,11 +34,7 @@ namespace MediaPlayer.Client.ViewModels
       tag.Name = Name;
       tag.Category = category;
       tag.CategoryId = category.Id;
-      tag.ParentTag = null;
-      if(parentTag.Id >= 0)
-      {
-        tag.ParentTag = parentTag;
-      }
+      tag.ParentTag = parentTag;
       var tagRepo = new TagRepository();
       tagRepo.UpdateTag(tag);
     }
