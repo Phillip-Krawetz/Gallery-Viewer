@@ -8,13 +8,15 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
+using MediaPlayer.Client.Abstracts;
 using MediaPlayer.Client.Converters;
 using MediaPlayer.Client.ViewModels;
+using MediaPlayer.Domain.Models;
 using MediaPlayer.Domain.Variables;
 
 namespace MediaPlayer.Client.Views
 {
-  public class ImageView : UserControl
+  public class ImageView : AbstractUserControlWithTags
   {
     private DockPanel imagePanel;
     public ImageView()
@@ -22,7 +24,7 @@ namespace MediaPlayer.Client.Views
       InitializeComponent();
       imagePanel = this.FindControl<DockPanel>("MainPanel");
       imagePanel.PropertyChanged += ImageLoad;
-      var tagList = this.FindControl<ListBox>("TagList");
+      var tagList = this.FindControl<StackPanel>("TagPanel");
       tagList.Width = 0;
       if(Options.ShowTagSidebarOnImageView)
       {
@@ -117,6 +119,32 @@ namespace MediaPlayer.Client.Views
       {
         dc.JumpToPage(Convert.ToInt32(args.AddedItems[0]));
       }
+    }
+
+    protected override void TagLeftClick(object sender, PointerPressedEventArgs args)
+    {
+      throw new NotImplementedException();
+    }
+
+    protected override void TagRightClick(object sender, PointerPressedEventArgs args)
+    {
+      throw new NotImplementedException();
+    }
+
+    protected override void TagMiddleClick(object sender, PointerPressedEventArgs args)
+    {
+      throw new NotImplementedException();
+    }
+
+    protected override void AddTag(DirectoryItem item, string tag)
+    {
+      var vm = this.DataContext as ImageViewModel;
+      vm.AddTag(item, tag);
+    }
+
+    protected override void SetSelectedDirectory(TextBlock textBlock)
+    {
+      return;
     }
   }
 }

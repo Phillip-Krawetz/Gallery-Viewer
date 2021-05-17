@@ -49,12 +49,45 @@
         <ListBox Items="{Binding FileIndexes}" SelectionChanged="PageSelection"/>
       </Popup>
     </WrapPanel>
-    <ListBox Name="TagList" Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" Items="{Binding Tags}">
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding Name}"/>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+    <StackPanel Name="TagPanel" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+      <TextBlock>Tags:</TextBlock>
+      <ItemsControl Name="TagListControl" Items="{Binding Tags}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border CornerRadius="10" Background="Black" BorderThickness="2" Padding="4" Margin="1">
+              <TextBlock Text="{Binding Name}"
+                          PointerEnter="TagHover"
+                          PointerLeave="TagUnhover"
+                          PointerPressed="TagHandler"
+                          Foreground="{Binding Category.Color}"/>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <WrapPanel HorizontalAlignment="Center">
+        <AutoCompleteBox Name="AddTagBox" Watermark="Add Tag" Width="100" 
+                          MinimumPopulateDelay="0.35" MaxDropDownHeight="100"
+                          Items="{Binding #MainPanel.DataContext.TagNameList}">
+          <AutoCompleteBox.KeyBindings>
+            <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
+                        Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
+              <KeyBinding.CommandParameter>
+                <Binding Path="#AddTagBox"/>
+              </KeyBinding.CommandParameter>
+            </KeyBinding>
+          </AutoCompleteBox.KeyBindings>
+        </AutoCompleteBox>
+        <TextBlock Text=" Add"
+                    PointerEnter="TagHover"
+                    PointerLeave="TagUnhover"
+                    PointerPressed="AddTag"
+                    VerticalAlignment="Center"/>
+      </WrapPanel>
+    </StackPanel>
   </Grid>
 </UserControl>

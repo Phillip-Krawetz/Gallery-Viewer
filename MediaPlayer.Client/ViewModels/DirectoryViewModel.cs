@@ -57,9 +57,6 @@ namespace MediaPlayer.Client.ViewModels
       set => this.RaiseAndSetIfChanged(ref filters, value);
     }
 
-    private TagRepository tagRepo = new TagRepository();
-    private DirectoryRepository directoryRepo = new DirectoryRepository();
-
     public string CurrentDirectory { get; set; }
 
     public DirectoryViewModel(){

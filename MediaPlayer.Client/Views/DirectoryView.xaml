@@ -61,8 +61,8 @@
         <DataGridTemplateColumn Header="Tags" Width="*">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
-              <StackPanel Name="TagCell" VerticalAlignment="Center">
-                <ItemsControl Items="{Binding Tags}">
+              <StackPanel Name="TagPanel" VerticalAlignment="Center">
+                <ItemsControl Name="TagListControl" Items="{Binding Tags}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                       <WrapPanel/>

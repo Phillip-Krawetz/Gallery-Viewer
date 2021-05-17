@@ -1,5 +1,7 @@
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
+using MediaPlayer.Domain.Models;
 
 namespace MediaPlayer.Client.Abstracts
 {
@@ -41,5 +43,21 @@ namespace MediaPlayer.Client.Abstracts
     protected abstract void TagRightClick(object sender, PointerPressedEventArgs args);
 
     protected abstract void TagMiddleClick(object sender, PointerPressedEventArgs args);
+
+    protected void AddTag(object sender, PointerPressedEventArgs args)
+    {
+      var textBlock = (TextBlock)sender;
+      var textBox = (textBlock.Parent as WrapPanel).Children.First(
+                x => x.GetType() == typeof(AutoCompleteBox)) as AutoCompleteBox;
+      SetSelectedDirectory(textBlock);
+      AddTag((this.DataContext as AbstractViewModelBaseWithTags).SelectedDirectory, textBox.Text);
+      textBox.Text = "";
+      textBox.ClearValue(AutoCompleteBox.TextProperty);
+      args.Handled = true;
+    }
+
+    protected abstract void AddTag(DirectoryItem item, string tag);
+
+    protected abstract void SetSelectedDirectory(TextBlock textBlock);
   }
 }

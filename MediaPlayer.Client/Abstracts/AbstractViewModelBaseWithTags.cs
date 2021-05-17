@@ -5,19 +5,25 @@ using System.Linq;
 using MediaPlayer.Client.ViewModels;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Storing.Repositories;
-using ReactiveUI;
 
 namespace MediaPlayer.Client.Abstracts
 {
   public abstract class AbstractViewModelBaseWithTags : ViewModelBase
   {
+    protected TagRepository tagRepo = new TagRepository();
+
     public ObservableCollection<Tag> TagList
     { 
       get => new ObservableCollection<Tag>(TagRepository.Tags);
     }
+
+    protected DirectoryRepository directoryRepo = new DirectoryRepository();
+
     public List<string> TagNameList
     {
       get => TagList.Select(x => x.Name).ToList();
     }
+
+    public DirectoryItem SelectedDirectory;
   }
 }

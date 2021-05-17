@@ -109,18 +109,17 @@ namespace MediaPlayer.Client.Views
       }
     }
 
-    private void AddTag(object sender, PointerPressedEventArgs args)
-    {
-      var textBlock = (TextBlock)sender;
-      var vm = (DirectoryViewModel)this.DataContext;
-      var textBox = (textBlock.Parent as WrapPanel).Children.First(x => x.GetType() == typeof(AutoCompleteBox)) as AutoCompleteBox;
-      vm.AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
-      textBox.Text = "";
-      textBox.ClearValue(AutoCompleteBox.TextProperty);
-      args.Handled = true;
-    }
+    // private void AddTag(object sender, PointerPressedEventArgs args)
+    // {
+    //   var textBlock = (TextBlock)sender;
+    //   var textBox = (textBlock.Parent as WrapPanel).Children.First(x => x.GetType() == typeof(AutoCompleteBox)) as AutoCompleteBox;
+    //   AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
+    //   textBox.Text = "";
+    //   textBox.ClearValue(AutoCompleteBox.TextProperty);
+    //   args.Handled = true;
+    // }
 
-    private void AddTag(DirectoryItem item, string tag)
+    protected override void AddTag(DirectoryItem item, string tag)
     {
       var vm = this.DataContext as DirectoryViewModel;
       vm.AddTag(item, tag);
@@ -175,7 +174,7 @@ namespace MediaPlayer.Client.Views
         return;
       }
       var dc = obj.DataContext;
-      if((obj as INamed).Name != "TagCell")
+      if((obj as INamed).Name != "TagPanel")
       {
         if(dc.GetType() == typeof(DirectoryItem))
         {
@@ -231,6 +230,11 @@ namespace MediaPlayer.Client.Views
       var tag = (sender as StyledElement).DataContext;
       var dc = this.DataContext as DirectoryViewModel;
       dc.AddFilter(tag as Tag, true);
+    }
+
+    protected override void SetSelectedDirectory(TextBlock textBlock)
+    {
+      (this.DataContext as DirectoryViewModel).SelectedDirectory = (DirectoryItem)textBlock.DataContext;
     }
   }
 }

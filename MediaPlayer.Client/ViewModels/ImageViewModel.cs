@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -5,13 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using MediaPlayer.Client.Abstracts;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Domain.Variables;
+using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
 namespace MediaPlayer.Client.ViewModels
 {
-  public class ImageViewModel : ViewModelBase
+  public class ImageViewModel : AbstractViewModelBaseWithTags
   {
     string imagePath;
     public string ImagePath { 
@@ -19,11 +22,11 @@ namespace MediaPlayer.Client.ViewModels
       set => this.RaiseAndSetIfChanged(ref imagePath, value);
     }
 
-    private DirectoryItem GalleryDirectory;
+    //private DirectoryItem GalleryDirectory;
 
     public ObservableCollection<Tag> Tags 
     { 
-      get => new ObservableCollection<Tag>(GalleryDirectory.Tags);
+      get => new ObservableCollection<Tag>(SelectedDirectory.Tags);
     }
 
     private List<string> myFiles = new List<string>();
@@ -60,7 +63,7 @@ namespace MediaPlayer.Client.ViewModels
 
     public ImageViewModel(DirectoryItem GalleryDirectory)
     {
-      this.GalleryDirectory = GalleryDirectory;
+      this.SelectedDirectory = GalleryDirectory;
       this.ImagePath = GalleryDirectory.StartPath;
       Initialize();
     }
@@ -150,6 +153,15 @@ namespace MediaPlayer.Client.ViewModels
       }
       this.ImagePath = myFiles[currentIndex];
       this.RaisePropertyChanged("CurrentImage");
+    }
+
+    public void AddTag(DirectoryItem item, string tag)
+    {
+      if(!String.IsNullOrWhiteSpace(tag)){
+        var newTag = tagRepo.GetOrNew(tag);
+        directoryRepo.AddTag(item, newTag);
+        this.RaisePropertyChanged("Tags");
+      }
     }
   }
 }
