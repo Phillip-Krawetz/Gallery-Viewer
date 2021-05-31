@@ -163,5 +163,11 @@ namespace MediaPlayer.Client.ViewModels
         this.RaisePropertyChanged("Tags");
       }
     }
+
+    public void RemoveTag(DirectoryItem item, Tag tag)
+    {
+      directoryRepo.RemoveTag(item, tag);
+      this.RaisePropertyChanged("Tags");
+    }
   }
 }

@@ -1,6 +1,8 @@
 using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using MediaPlayer.Client.Views;
 using MediaPlayer.Domain.Models;
 
 namespace MediaPlayer.Client.Abstracts
@@ -59,5 +61,22 @@ namespace MediaPlayer.Client.Abstracts
     protected abstract void AddTag(DirectoryItem item, string tag);
 
     protected abstract void SetSelectedDirectory(TextBlock textBlock);
+
+    protected void TagEdit(object sender, PointerPressedEventArgs args)
+    {
+      var popup = this.FindControl<Popup>("TagPopup");
+      if(popup != null)
+      {
+        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
+        var tagWindow = TagWindow.GetTagWindow;
+        var openPoint = (this.Parent.Parent.Parent as Window).Position;
+        openPoint = openPoint.WithX((int)(openPoint.X + this.Bounds.Width/2 - tagWindow.Width/2));
+        openPoint = openPoint.WithY((int)(openPoint.Y + this.Bounds.Height/2 - tagWindow.Height/2));
+        tagWindow.Position = openPoint;
+        tagWindow.ShowDialog(this.Parent.Parent.Parent as Window);
+        tagWindow.OpenTagWindow(tag);
+        popup.Close();
+      }
+    }
   }
 }

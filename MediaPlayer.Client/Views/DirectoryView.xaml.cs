@@ -67,22 +67,6 @@ namespace MediaPlayer.Client.Views
       }
     }
 
-    private void TagEdit(object sender, PointerPressedEventArgs args)
-    {
-      var popup = (sender as TextBlock).Parent.Parent as Popup;
-      if(popup != null)
-      {
-        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
-        var tagWindow = TagWindow.GetTagWindow;
-        var openPoint = (this.Parent.Parent.Parent as Window).Position;
-        openPoint = openPoint.WithX((int)(openPoint.X + this.Bounds.Width/2 - tagWindow.Width/2));
-        openPoint = openPoint.WithY((int)(openPoint.Y + this.Bounds.Height/2 - tagWindow.Height/2));
-        tagWindow.Position = openPoint;
-        tagWindow.ShowDialog(this.Parent.Parent.Parent as Window);
-        tagWindow.OpenTagWindow(tag);
-        popup.Close();
-      }
-    }
 
     private void TagExclude(object sender, PointerPressedEventArgs args)
     {
@@ -220,7 +204,7 @@ namespace MediaPlayer.Client.Views
 
     protected override void TagRightClick(object sender, PointerPressedEventArgs args)
     {
-      var popup = this.FindControl<Popup>("Popup");
+      var popup = this.FindControl<Popup>("TagPopup");
       popup.PlacementTarget = sender as Control;
       popup.Open();
     }

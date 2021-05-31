@@ -159,17 +159,19 @@ namespace MediaPlayer.Client.Views
 
     protected override void TagLeftClick(object sender, PointerPressedEventArgs args)
     {
-      throw new NotImplementedException();
+      return;
     }
 
     protected override void TagRightClick(object sender, PointerPressedEventArgs args)
     {
-      throw new NotImplementedException();
+      var popup = this.FindControl<Popup>("TagPopup");
+      popup.PlacementTarget = sender as Control;
+      popup.Open();
     }
 
     protected override void TagMiddleClick(object sender, PointerPressedEventArgs args)
     {
-      throw new NotImplementedException();
+      return;
     }
 
     protected override void AddTag(DirectoryItem item, string tag)
@@ -181,6 +183,19 @@ namespace MediaPlayer.Client.Views
     protected override void SetSelectedDirectory(TextBlock textBlock)
     {
       return;
+    }
+
+    private void TagRemove(object sender, PointerPressedEventArgs args)
+    {
+      var popup = (sender as TextBlock).Parent.Parent as Popup;
+      if(popup != null)
+      {
+        var di = (this.DataContext as ImageViewModel).SelectedDirectory; 
+        var tag = (popup.PlacementTarget as TextBlock).DataContext as Tag;
+        var vm = this.DataContext as ImageViewModel;
+        vm.RemoveTag(di, tag);
+        popup.Close();
+      }
     }
   }
 }

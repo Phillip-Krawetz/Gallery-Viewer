@@ -105,7 +105,7 @@
         </DataGridTemplateColumn>
       </DataGrid.Columns>
     </DataGrid>
-    <Popup Name="Popup" StaysOpen="False">
+    <Popup Name="TagPopup" StaysOpen="False">
       <StackPanel Margin="5" Spacing="5">
         <TextBlock Text="Exclude" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagExclude"/>
         <TextBlock Text="Edit" Foreground="White" HorizontalAlignment="Center" PointerPressed="TagEdit"/>
