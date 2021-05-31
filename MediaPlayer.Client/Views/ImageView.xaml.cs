@@ -1,5 +1,6 @@
 using System;
 using System.Reactive.Subjects;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -7,6 +8,7 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MediaPlayer.Client.Abstracts;
 using MediaPlayer.Client.Converters;
@@ -19,11 +21,17 @@ namespace MediaPlayer.Client.Views
   public class ImageView : AbstractUserControlWithTags
   {
     private DockPanel imagePanel;
+    private Image image;
+    private Point start;
+    private Point origin;
+    private bool panning;
     public ImageView()
     {
       InitializeComponent();
       imagePanel = this.FindControl<DockPanel>("MainPanel");
       imagePanel.PropertyChanged += ImageLoad;
+      image = this.FindControl<Image>("img");
+      panning = false;
       var tagList = this.FindControl<StackPanel>("TagPanel");
       tagList.Width = 0;
       if(Options.ShowTagSidebarOnImageView)
@@ -41,37 +49,65 @@ namespace MediaPlayer.Client.Views
     {
       if(args.Property == DockPanel.BoundsProperty && (Rect?)args.OldValue == default(Rect))
       {
-        var img = this.FindControl<Image>("img");
-        var scroll = this.FindControl<ScrollViewer>("ImageScroll");
-        if(Options.Resize)
-        {
-          scroll.PropertyChanged += ResizeImage;
-        }
-        else
-        {
-          img.Height = double.NaN;
-          img.Width = double.NaN;
-        }
+        var transformGroup = new TransformGroup();
+        transformGroup.Children.Add(new ScaleTransform());
+        transformGroup.Children.Add(new TranslateTransform());
+        image.RenderTransform = transformGroup;
         if(Options.Preload)
         {
-          img.Bind(Image.SourceProperty, new Binding("CurrentImage"));
+          image.Bind(Image.SourceProperty, new Binding("CurrentImage"));
         }
         else
         {
           var temp = new BitmapValueConverter();
-          img.Bind(Image.SourceProperty, new Binding("ImagePath"){Converter = temp});
+          image.Bind(Image.SourceProperty, new Binding("ImagePath"){Converter = temp});
+        }
+        if(Options.Resize)
+        {
+          image.Height = imagePanel.Height;
+          image.Width = imagePanel.Width;
+        }
+        else
+        {
+          image.Height = image.Source.Size.Height;
+          image.Width = image.Source.Size.Width;
         }
       }
     }
 
-    public void ResizeImage(object sender, AvaloniaPropertyChangedEventArgs args)
+    public void ImageScroll(object sender, PointerWheelEventArgs args)
     {
-      if(args.Property == ScrollViewer.ViewportProperty)
+      var transform = (ScaleTransform)((TransformGroup)image.RenderTransform)
+              .Children.First(x => x is ScaleTransform);
+      var zoom = args.Delta.Y > 0 ? .2 : -.2;
+      transform.ScaleX += zoom;
+      transform.ScaleY += zoom;
+    }
+
+    public void BeginPan(object sender, PointerPressedEventArgs args)
+    {
+      var transform = (TranslateTransform)((TransformGroup)image.RenderTransform)
+              .Children.First(x => x is TranslateTransform);
+      start = args.GetPosition(this);
+      origin = new Point(transform.X, transform.Y);
+      panning = true;
+    }
+
+    public void Pan(object sender, PointerEventArgs args)
+    {
+      if(panning)
       {
-        var img = this.FindControl<Image>("img");
-        img.Height = (sender as ScrollViewer).Viewport.Height;
-        img.Width = (sender as ScrollViewer).Viewport.Width;
+        var transform = (TranslateTransform)((TransformGroup)image.RenderTransform)
+              .Children.First(x => x is TranslateTransform);
+        var vector = start - args.GetPosition(this);
+        transform.X = origin.X - vector.X;
+        transform.Y = origin.Y - vector.Y;
       }
+    }
+
+    public void EndPan(object sender, PointerReleasedEventArgs args)
+    {
+      panning = false;
     }
 
     public void HoverHandler(object sender, PointerEventArgs args)
