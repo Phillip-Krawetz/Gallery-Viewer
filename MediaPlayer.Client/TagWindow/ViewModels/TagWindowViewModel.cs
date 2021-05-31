@@ -25,7 +25,7 @@ namespace MediaPlayer.Client.ViewModels
     {
       this.tag = tag;
       Categories = new ObservableCollection<Category>(CategoryRepository.Categories);
-      TagList = new ObservableCollection<Tag>(TagRepository.Tags);
+      TagList = new ObservableCollection<Tag>(TagRepository.Tags.OrderBy(x => x.Name));
       TagList.Insert(0, new Tag(){Name = "None", Id = -1});
     }
 
