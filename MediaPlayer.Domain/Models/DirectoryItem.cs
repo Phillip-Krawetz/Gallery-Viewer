@@ -93,6 +93,16 @@ namespace MediaPlayer.Domain.Models
           }
         }
       }
+      for(int i = 0; i < tags.Count; i++)
+      {
+        for(int j = 0; j < tags.Count - 1; j++)
+        {
+          if(tags[j].Category.Priority.CompareTo(tags[j + 1].Category.Priority) < 0)
+          {
+            tags.Move(j, j+1);
+          }
+        }
+      }
     }
 
     private void ForceUpdate()
