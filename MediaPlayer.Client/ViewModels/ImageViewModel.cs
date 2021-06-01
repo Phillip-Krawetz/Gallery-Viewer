@@ -9,6 +9,7 @@ using Avalonia.Media.Imaging;
 using MediaPlayer.Client.Abstracts;
 using MediaPlayer.Domain.Models;
 using MediaPlayer.Domain.Variables;
+using MediaPlayer.Domain.Utilities;
 using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 
@@ -89,18 +90,20 @@ namespace MediaPlayer.Client.ViewModels
       }
 
       var dir = ImagePath.Substring(0, ImagePath.Length - ImagePath.Substring(ImagePath.LastIndexOf('\\')).Length + 1);
+      Func<String, String> selector = str => str;
+      var files = Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly).OrderByAlphaNumeric(selector);
 
-      var continueExecution = IterateFiles(dir);
+      var continueExecution = IterateFiles(dir, files);
 
       currentIndex = 0;
 
       System.Console.WriteLine("Opened:" + dir);
     }
 
-    public async Task IterateFiles(string dir)
+    public async Task IterateFiles(string dir, IEnumerable<String> files)
     {
       var LoadTasks = new List<Task>();
-      foreach(var item in Directory.EnumerateFiles(dir, "*.*", SearchOption.TopDirectoryOnly))
+      foreach(var item in files)
       {
         if(FileTypes.ValidImageTypes.Contains(Path.GetExtension(item).ToLowerInvariant()))
         {
