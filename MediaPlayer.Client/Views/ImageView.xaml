@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:MediaPlayer.Client.Converters;assembly=MediaPlayer.Client"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+             Name="ImageViewControl"
              x:Class="MediaPlayer.Client.Views.ImageView">
 
-  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="10, Auto, *, Auto, 10, Auto">
+  <Grid Name="MainPanel" RowDefinitions="Auto,*,Auto" ColumnDefinitions="10, Auto, *, Auto, 10, Auto">
     <Grid.Resources>
       <local:BitmapValueConverter x:Key="bitmapConverter"/>
       <local:IntToStringConverter x:Key="intConverter"/>
@@ -21,7 +22,7 @@
         </Setter>
       </Style>
     </Grid.Styles>
-    <DockPanel Name="MainPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
+    <DockPanel Name="ImagePanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="5"> 
       <Image Name="img" Stretch="Uniform" PointerPressed="BeginPan" PointerReleased="EndPan" PointerMoved="Pan"
               PointerWheelChanged="ImageScroll"/>
     </DockPanel>
@@ -73,7 +74,7 @@
                           Items="{Binding #MainPanel.DataContext.TagNameList}">
           <AutoCompleteBox.KeyBindings>
             <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
-                        Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
+                        Command="{Binding #ImageViewControl.ConfirmPressHappened}">
               <KeyBinding.CommandParameter>
                 <Binding Path="#AddTagBox"/>
               </KeyBinding.CommandParameter>

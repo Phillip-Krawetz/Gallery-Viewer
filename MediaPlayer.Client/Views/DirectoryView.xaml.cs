@@ -40,13 +40,6 @@ namespace MediaPlayer.Client.Views
       AvaloniaXamlLoader.Load(this);
     }
 
-    private void ConfirmPressHappened(AutoCompleteBox sender)
-    {
-      AddTag(sender.DataContext as DirectoryItem, sender.Text);
-      sender.Text = "";
-      sender.ClearValue(AutoCompleteBox.TextProperty);
-    }
-
     private void SetGridHeight(object sender, AvaloniaPropertyChangedEventArgs args)
     {
       if(args.Property == DockPanel.BoundsProperty)
@@ -91,22 +84,6 @@ namespace MediaPlayer.Client.Views
         vm.RemoveTag(di, tag);
         popup.Close();
       }
-    }
-
-    // private void AddTag(object sender, PointerPressedEventArgs args)
-    // {
-    //   var textBlock = (TextBlock)sender;
-    //   var textBox = (textBlock.Parent as WrapPanel).Children.First(x => x.GetType() == typeof(AutoCompleteBox)) as AutoCompleteBox;
-    //   AddTag((DirectoryItem)textBlock.DataContext, textBox.Text);
-    //   textBox.Text = "";
-    //   textBox.ClearValue(AutoCompleteBox.TextProperty);
-    //   args.Handled = true;
-    // }
-
-    protected override void AddTag(DirectoryItem item, string tag)
-    {
-      var vm = this.DataContext as DirectoryViewModel;
-      vm.AddTag(item, tag);
     }
 
     private void RemoveFilter(object sender, PointerPressedEventArgs args)

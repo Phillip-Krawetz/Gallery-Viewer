@@ -128,7 +128,7 @@ namespace MediaPlayer.Client.ViewModels
       return temp;
     }
 
-    public void AddTag(DirectoryItem item, string tag)
+    public override void AddTag(DirectoryItem item, string tag)
     {
       if(!String.IsNullOrWhiteSpace(tag)){
         if(Items.Contains(item))

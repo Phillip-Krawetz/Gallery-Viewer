@@ -155,9 +155,13 @@ namespace MediaPlayer.Client.ViewModels
       this.RaisePropertyChanged("CurrentImage");
     }
 
-    public void AddTag(DirectoryItem item, string tag)
+    public override void AddTag(DirectoryItem item, string tag)
     {
       if(!String.IsNullOrWhiteSpace(tag)){
+        if(item == null)
+        {
+          item = this.SelectedDirectory;
+        }
         var newTag = tagRepo.GetOrNew(tag);
         directoryRepo.AddTag(item, newTag);
         this.RaisePropertyChanged("Tags");

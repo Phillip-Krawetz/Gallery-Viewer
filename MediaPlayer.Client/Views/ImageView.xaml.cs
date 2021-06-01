@@ -28,7 +28,7 @@ namespace MediaPlayer.Client.Views
     public ImageView()
     {
       InitializeComponent();
-      imagePanel = this.FindControl<DockPanel>("MainPanel");
+      imagePanel = this.FindControl<DockPanel>("ImagePanel");
       imagePanel.PropertyChanged += ImageLoad;
       image = this.FindControl<Image>("img");
       panning = false;
@@ -172,12 +172,6 @@ namespace MediaPlayer.Client.Views
     protected override void TagMiddleClick(object sender, PointerPressedEventArgs args)
     {
       return;
-    }
-
-    protected override void AddTag(DirectoryItem item, string tag)
-    {
-      var vm = this.DataContext as ImageViewModel;
-      vm.AddTag(item, tag);
     }
 
     protected override void SetSelectedDirectory(TextBlock textBlock)

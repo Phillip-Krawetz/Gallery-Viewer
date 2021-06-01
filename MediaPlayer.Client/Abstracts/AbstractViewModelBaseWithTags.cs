@@ -25,5 +25,7 @@ namespace MediaPlayer.Client.Abstracts
     }
 
     public DirectoryItem SelectedDirectory;
+
+    public abstract void AddTag(DirectoryItem item, string tag);
   }
 }

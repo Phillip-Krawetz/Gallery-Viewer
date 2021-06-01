@@ -58,7 +58,11 @@ namespace MediaPlayer.Client.Abstracts
       args.Handled = true;
     }
 
-    protected abstract void AddTag(DirectoryItem item, string tag);
+    protected void AddTag(DirectoryItem item, string tag)
+    {
+      var vm = this.DataContext as AbstractViewModelBaseWithTags;
+      vm.AddTag(item, tag);
+    }
 
     protected abstract void SetSelectedDirectory(TextBlock textBlock);
 
@@ -77,6 +81,13 @@ namespace MediaPlayer.Client.Abstracts
         tagWindow.OpenTagWindow(tag);
         popup.Close();
       }
+    }
+
+    protected void ConfirmPressHappened(AutoCompleteBox sender)
+    {
+      AddTag(sender.DataContext as DirectoryItem, sender.Text);
+      sender.Text = "";
+      sender.ClearValue(AutoCompleteBox.TextProperty);
     }
   }
 }
