@@ -15,6 +15,7 @@ namespace MediaPlayer.Client.Views
     private TextBox rField;
     private TextBox gField;
     private TextBox bField;
+    private TextBox priorityField;
     private Button saveButton;
     private Category currentCategory;
     public CategoryView()
@@ -24,6 +25,7 @@ namespace MediaPlayer.Client.Views
       rField = this.FindControl<TextBox>("CategoryRBox");
       gField = this.FindControl<TextBox>("CategoryGBox");
       bField = this.FindControl<TextBox>("CategoryBBox");
+      priorityField = this.FindControl<TextBox>("CategoryPriorityBox");
       saveButton = this.FindControl<Button>("SaveButton");
       saveButton.PropertyChanged += UpdateCategory;
     }
@@ -61,6 +63,7 @@ namespace MediaPlayer.Client.Views
       rField.Text = currentCategory.R.ToString();
       gField.Text = currentCategory.G.ToString();
       bField.Text = currentCategory.B.ToString();
+      priorityField.Text = currentCategory.Priority.ToString();
     }
 
     private void UpdateCategory(object sender, AvaloniaPropertyChangedEventArgs args)
@@ -71,6 +74,7 @@ namespace MediaPlayer.Client.Views
         currentCategory.R = Convert.ToByte(rField.Text);
         currentCategory.G = Convert.ToByte(gField.Text);
         currentCategory.B = Convert.ToByte(bField.Text);
+        currentCategory.Priority = Convert.ToInt32(priorityField.Text);
         var vm = this.DataContext as CategoryViewModel;
         vm.UpdateCategory(currentCategory);
       }

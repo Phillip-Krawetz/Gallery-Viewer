@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
              x:Class="MediaPlayer.Client.Views.CategoryView">
-  <Grid RowDefinitions="Auto,200,Auto,Auto,Auto,Auto,Auto" Grid.ColumnDefinitions="20,100,*,20">
+  <Grid RowDefinitions="Auto,200,Auto,Auto,Auto,Auto,Auto,Auto" Grid.ColumnDefinitions="20,100,*,20">
     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center">All Categories:</TextBlock>
     <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
       <WrapPanel>
@@ -35,7 +35,9 @@
     <TextBox Name="CategoryGBox" Grid.Row="4" Grid.Column="2"/>
     <TextBlock Grid.Row="5" Grid.Column="1" Text="B Value:" HorizontalAlignment="Right" Margin="6"/>
     <TextBox Name="CategoryBBox" Grid.Row="5" Grid.Column="2"/>
-    <Button Name="SaveButton" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">Save</Button>
+    <TextBlock Grid.Row="6" Grid.Column="1" Text="Priority:" HorizontalAlignment="Right" Margin="6"/>
+    <TextBox Name="CategoryPriorityBox" Grid.Row="6" Grid.Column="2"/>
+    <Button Name="SaveButton" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">Save</Button>
     <Popup Name="Popup" StaysOpen="False">
       <StackPanel Margin="5" Spacing="5">
         <TextBlock Text="Remove" Foreground="White" HorizontalAlignment="Center" PointerPressed="RemoveCategory"/>

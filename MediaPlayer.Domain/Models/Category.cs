@@ -18,12 +18,15 @@ namespace MediaPlayer.Domain.Models
     public byte G { get; set; }
     public byte B { get; set; }
 
+    public int Priority { get; set; }
+
     public Category()
     {
       Name = "Tag";
       R = 255;
       G = 255;
       B = 255;
+      Priority = 0;
     }
   }
 }
