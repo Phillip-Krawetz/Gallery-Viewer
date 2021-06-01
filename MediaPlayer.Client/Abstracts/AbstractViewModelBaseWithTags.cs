@@ -21,7 +21,7 @@ namespace MediaPlayer.Client.Abstracts
 
     public List<string> TagNameList
     {
-      get => TagList.Select(x => x.Name).ToList();
+      get => TagList.Select(x => x.Name).OrderBy(x => x).ToList();
     }
 
     public DirectoryItem SelectedDirectory;
