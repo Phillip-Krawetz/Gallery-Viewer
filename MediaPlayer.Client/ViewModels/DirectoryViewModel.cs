@@ -97,7 +97,7 @@ namespace MediaPlayer.Client.ViewModels
       {
         this.items = new ObservableCollection<DirectoryItem>();
       }
-      var directories = Directory.GetDirectories(directory);
+      var directories = Directory.GetDirectories(directory).Except(items.Select(y => y.FolderPath));
       
       if(directories.Count() > 0 && !Directory.Exists(ImageUtils.ThumbnailCachePath()))
       {
@@ -109,7 +109,10 @@ namespace MediaPlayer.Client.ViewModels
       {
         tasks.Add(CheckDirectory(item));
       });
-      Items = new ObservableCollection<DirectoryItem>(tasks.Where(x => x.FolderPath != null).OrderBy(x => x.FolderPath));
+      var newItems = new ObservableCollection<DirectoryItem>(tasks.Where(x => x.FolderPath != null).OrderBy(x => x.FolderPath));
+
+      CurrentDirectory = directory;
+      Items = new ObservableCollection<DirectoryItem>(Items.Union(newItems));
 
       if(Items.Count == 0)
       {
@@ -118,7 +121,6 @@ namespace MediaPlayer.Client.ViewModels
           StartPath = "None"
         });
       }
-      CurrentDirectory = directory;
     }
 
     private DirectoryItem CheckDirectory(string item)
