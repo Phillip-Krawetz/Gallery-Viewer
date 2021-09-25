@@ -26,11 +26,12 @@ namespace MediaPlayer.Client.ViewModels
       {
         if(filters.Count < 1)
         {
-          return items;
+          return new ObservableCollection<DirectoryItem>(items.Where(x => x.Name.ToLower().Contains(searchText.ToLower())));
         }
         return new ObservableCollection<DirectoryItem>(
           items.Where(x => 
           {
+            x.Name.ToLower().Contains(searchText.ToLower());
             var temp = new HashSet<Tag>(x.TagsWithParents);
             var inclusions = Filters.Where(x => !x.Exclude).Select(x => x.Tag);
             if(temp.IsSupersetOf(inclusions))
@@ -56,12 +57,22 @@ namespace MediaPlayer.Client.ViewModels
       get => filters;
       set => this.RaiseAndSetIfChanged(ref filters, value);
     }
+    
+    private string searchtext;
+    private string searchText
+    { 
+      get{
+        return searchtext ?? "";
+      }
+      set => this.searchtext = value;
+    }
 
     public string CurrentDirectory { get; set; }
 
     public DirectoryViewModel(){
       Items = new ObservableCollection<DirectoryItem>(directoryRepo.Directories.OrderBy(x => x.FolderPath));
       filters = new ObservableCollection<Filter>();
+      searchText = "";
     }
 
     public void AddFilter(Tag tag, bool exclude = false)
@@ -86,6 +97,12 @@ namespace MediaPlayer.Client.ViewModels
         Filters.Remove(filter);
         this.RaisePropertyChanged("Items");
       }
+    }
+
+    public void SearchNames(string searchtext)
+    {
+      this.searchText = searchtext;
+      this.RaisePropertyChanged("Items");
     }
 
     public void SetDirectoryAsync(string directory){

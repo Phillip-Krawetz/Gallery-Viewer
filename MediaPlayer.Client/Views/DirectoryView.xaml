@@ -41,6 +41,22 @@
                   PointerLeave="TagUnhover"
                   PointerPressed="ExcludeManualFilter"
                   VerticalAlignment="Center"/>
+      <TextBox Name="SearchBox">
+        <TextBox.KeyBindings>
+          <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
+                      Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
+            <KeyBinding.CommandParameter>
+              <Binding Path="#SearchLabel"/>
+            </KeyBinding.CommandParameter>
+          </KeyBinding>
+        </TextBox.KeyBindings>
+      </TextBox>
+      <TextBlock Name="SearchLabel"
+                  Text="Search"
+                  PointerEnter="TagHover"
+                  PointerLeave="TagUnhover"
+                  PointerPressed="SearchNames"
+                  VerticalAlignment="Center"/>
     </StackPanel>
     <Button DockPanel.Dock="Bottom" Command="{Binding ChangeDirectory}">Change Directory</Button> 
     <DataGrid Name="DirectoryGrid" Items="{Binding Items}" CellPointerPressed="SelectionHandler"

@@ -110,6 +110,29 @@ namespace MediaPlayer.Client.Views
       args.Handled = true;
     }
 
+    private void SearchNames(object sender, PointerPressedEventArgs args)
+    {
+      SearchNames();
+      args.Handled = true;
+    }
+    private void SearchNames()
+    {
+      var dc = this.DataContext as DirectoryViewModel;
+      var searchtext = this.FindControl<TextBox>("SearchBox").Text;
+      dc.SearchNames(searchtext);
+    }
+
+    private void ConfirmPressHappened(StyledElement sender)
+    {
+      if(sender.Name == "SearchLabel"){
+        SearchNames();
+      }
+      if(sender.Name == "AddTagBox")
+      {
+        base.ConfirmPressHappened(sender as AutoCompleteBox);
+      }
+    }
+
     private void SaveLastRowPosition(object sender, DataGridCellPointerPressedEventArgs args)
     {
       var gridBottom = ((TransformedBounds)(sender as DataGrid).TransformedBounds).Clip.Bottom;
