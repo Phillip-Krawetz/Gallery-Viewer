@@ -31,7 +31,10 @@ namespace MediaPlayer.Client.ViewModels
         return new ObservableCollection<DirectoryItem>(
           items.Where(x => 
           {
-            x.Name.ToLower().Contains(searchText.ToLower());
+            if(!x.Name.ToLower().Contains(searchText.ToLower()))
+            {
+              return false;
+            }
             var temp = new HashSet<Tag>(x.TagsWithParents);
             var inclusions = Filters.Where(x => !x.Exclude).Select(x => x.Tag);
             if(temp.IsSupersetOf(inclusions))
