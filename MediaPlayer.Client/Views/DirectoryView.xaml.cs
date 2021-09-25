@@ -94,11 +94,15 @@ namespace MediaPlayer.Client.Views
 
     private void AddManualFilter(object sender, PointerPressedEventArgs args)
     {
+      AddManualFilter();
+      args.Handled = true;
+    }
+    private void AddManualFilter()
+    {
       var dc = this.DataContext as DirectoryViewModel;
       dc.ManualFilter(manualFilter.Text, false);
       manualFilter.Text = "";
       manualFilter.ClearValue(AutoCompleteBox.TextProperty);
-      args.Handled = true;
     }
 
     private void ExcludeManualFilter(object sender, PointerPressedEventArgs args)
@@ -124,12 +128,18 @@ namespace MediaPlayer.Client.Views
 
     private void ConfirmPressHappened(StyledElement sender)
     {
-      if(sender.Name == "SearchLabel"){
-        SearchNames();
-      }
-      if(sender.Name == "AddTagBox")
-      {
-        base.ConfirmPressHappened(sender as AutoCompleteBox);
+      switch(sender.Name){
+        case "SearchLabel":
+          SearchNames();
+          break;
+        case "AddManualFilter":
+          AddManualFilter();
+          break;
+        case "AddTagBox":
+          base.ConfirmPressHappened(sender as AutoCompleteBox);
+          break;
+        default:
+          break;
       }
     }
 

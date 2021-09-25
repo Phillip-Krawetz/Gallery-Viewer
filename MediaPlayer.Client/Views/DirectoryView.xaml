@@ -28,6 +28,14 @@
       <AutoCompleteBox Name="ManualFilter" Watermark="Filter Tags" 
                         MinimumPopulateDelay="0.35" MaxDropDownHeight="100"
                         Items="{Binding #MainPanel.DataContext.TagNameList}">
+        <AutoCompleteBox.KeyBindings>
+          <KeyBinding Gesture="{Binding #MainPanel.DataContext.ConfirmKey}" 
+                      Command="{Binding #DirectoryViewControl.ConfirmPressHappened}">
+            <KeyBinding.CommandParameter>
+              <Binding Path="#AddManualFilter"/>
+            </KeyBinding.CommandParameter>
+          </KeyBinding>
+        </AutoCompleteBox.KeyBindings>
       </AutoCompleteBox>
       <TextBlock Name="AddManualFilter"
                   Text="Add"
