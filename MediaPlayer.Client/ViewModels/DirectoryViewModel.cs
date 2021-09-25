@@ -62,7 +62,7 @@ namespace MediaPlayer.Client.ViewModels
     }
     
     private string searchtext;
-    private string searchText
+    public string searchText
     { 
       get{
         return searchtext ?? "";
@@ -102,9 +102,8 @@ namespace MediaPlayer.Client.ViewModels
       }
     }
 
-    public void SearchNames(string searchtext)
+    public void SearchNames()
     {
-      this.searchText = searchtext;
       this.RaisePropertyChanged("Items");
     }
 

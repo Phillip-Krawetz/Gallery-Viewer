@@ -122,8 +122,7 @@ namespace MediaPlayer.Client.Views
     private void SearchNames()
     {
       var dc = this.DataContext as DirectoryViewModel;
-      var searchtext = this.FindControl<TextBox>("SearchBox").Text;
-      dc.SearchNames(searchtext);
+      dc.SearchNames();
     }
 
     private void ConfirmPressHappened(StyledElement sender)
