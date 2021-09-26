@@ -13,6 +13,8 @@ using MediaPlayer.Domain.Utilities;
 using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
 using Avalonia.Interactivity;
+using Avalonia.Input;
+using Avalonia.Controls;
 
 namespace MediaPlayer.Client.ViewModels
 {
@@ -144,6 +146,11 @@ namespace MediaPlayer.Client.ViewModels
 
     public void PrevImage(RoutedEventArgs args)
     {
+      var focus = FocusManager.Instance.Current;
+      if(focus is TextBox)
+      {
+        return;
+      }
       if(currentIndex > 0)
       {
         currentIndex--;
@@ -155,6 +162,11 @@ namespace MediaPlayer.Client.ViewModels
 
     public void NextImage(RoutedEventArgs args)
     {
+      var focus = FocusManager.Instance.Current;
+      if(focus is TextBox)
+      {
+        return;
+      }
       if(currentIndex < myFiles.Count - 1)
       {
         currentIndex++;
