@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MediaPlayer.Domain.Utilities
 {
-  public class ImageUtils
+  public static class ImageUtils
   {
 
     public static string ThumbnailCachePath()
