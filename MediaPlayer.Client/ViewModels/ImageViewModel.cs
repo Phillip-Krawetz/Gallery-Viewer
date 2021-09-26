@@ -70,11 +70,13 @@ namespace MediaPlayer.Client.ViewModels
       this.SelectedDirectory = GalleryDirectory;
       this.ImagePath = GalleryDirectory.StartPath;
       Initialize();
+      MainTitle = GalleryDirectory.Name;
     }
 
     public ImageViewModel(string ImagePath){
       this.ImagePath = ImagePath;
       Initialize();
+      MainTitle = ImagePath;
     }
 
     private void Initialize()

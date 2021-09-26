@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using MediaPlayer.Client.ViewModels;
 using MediaPlayer.Domain.Variables;
@@ -57,6 +58,7 @@ namespace MediaPlayer.Client.Views
             oldContent.Remove(OldContent[currentPage]);
             currentPage--;
             t.Content = (ViewModelBase)OldContent[currentPage];
+            this.Title = (mainContent.Content as ViewModelBase).MainTitle;
           }
         }
 
@@ -103,6 +105,7 @@ namespace MediaPlayer.Client.Views
             {
               currentPage++;
               oldContent.Add(mainContent.Content);
+              this.Title = (mainContent.Content as ViewModelBase).MainTitle;
             }
             this.Focus();
           }

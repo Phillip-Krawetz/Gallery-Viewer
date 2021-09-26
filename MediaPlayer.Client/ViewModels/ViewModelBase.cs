@@ -7,6 +7,12 @@ namespace MediaPlayer.Client.ViewModels
 {
   public class ViewModelBase : ReactiveObject
   {
+    private string mainTitle = "Gallery Viewer";
+    public string MainTitle
+    { 
+      get => mainTitle;
+      set => this.RaiseAndSetIfChanged(ref mainTitle, value);
+    }
     public KeyGesture NextKey
     {
       get => Options.NextKey;
