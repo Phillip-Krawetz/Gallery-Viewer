@@ -28,14 +28,14 @@ namespace MediaPlayer.Client.ViewModels
       Content = vm;
     }
 
-    public override void Next()
+    public override void NextEventHandler()
     {
-      this.content.Next();
+      this.content.NextEventHandler();
     }
 
-    public override void Prev()
+    public override void PrevEventHandler()
     {
-      this.content.Prev();
+      this.content.PrevEventHandler();
     }
 
     public override void ConfirmEventHandler()

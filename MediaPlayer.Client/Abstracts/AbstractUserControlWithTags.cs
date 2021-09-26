@@ -7,7 +7,7 @@ using MediaPlayer.Domain.Models;
 
 namespace MediaPlayer.Client.Abstracts
 {
-  public abstract class AbstractUserControlWithTags : UserControl
+  public abstract class AbstractUserControlWithTags : AbstractUserControlWithText
   {
     protected void TagHover(object sender, PointerEventArgs args)
     {

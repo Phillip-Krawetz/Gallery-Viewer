@@ -34,6 +34,7 @@ namespace MediaPlayer.Client.Views
         this.SelectRandom();
       };
       this.DataContextChanged += SetSearchKey;
+      InitializeTextBindings();
     }
 
     private void SetSearchKey(object sender, System.EventArgs args)

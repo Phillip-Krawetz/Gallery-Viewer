@@ -32,8 +32,19 @@ namespace MediaPlayer.Client.ViewModels
       get => Options.SearchKey;
     }
 
-    public virtual void Next(){}
-    public virtual void Prev(){}
+    public delegate void Next(RoutedEventArgs args);
+    public event Next NextEvent;
+    public virtual void NextEventHandler()
+    {
+      NextEvent?.Invoke(new RoutedEventArgs());
+    }
+
+    public delegate void Prev(RoutedEventArgs args);
+    public event Prev PrevEvent;
+    public virtual void PrevEventHandler()
+    {
+      PrevEvent?.Invoke(new RoutedEventArgs());
+    }
 
     public delegate void Back();
     public event Back BackEvent;

@@ -12,6 +12,7 @@ using MediaPlayer.Domain.Variables;
 using MediaPlayer.Domain.Utilities;
 using MediaPlayer.Storing.Repositories;
 using ReactiveUI;
+using Avalonia.Interactivity;
 
 namespace MediaPlayer.Client.ViewModels
 {
@@ -98,6 +99,9 @@ namespace MediaPlayer.Client.ViewModels
       currentIndex = 0;
 
       System.Console.WriteLine("Opened:" + dir);
+
+      NextEvent += NextImage;
+      PrevEvent += PrevImage;
     }
 
     public async Task IterateFiles(string dir, IEnumerable<String> files)
@@ -138,7 +142,7 @@ namespace MediaPlayer.Client.ViewModels
     }
 
 
-    public override void Prev()
+    public void PrevImage(RoutedEventArgs args)
     {
       if(currentIndex > 0)
       {
@@ -146,9 +150,10 @@ namespace MediaPlayer.Client.ViewModels
       }
       this.ImagePath = myFiles[currentIndex];
       this.RaisePropertyChanged("CurrentImage");
+      args.Handled = true;
     }
 
-    public override void Next()
+    public void NextImage(RoutedEventArgs args)
     {
       if(currentIndex < myFiles.Count - 1)
       {
@@ -156,6 +161,7 @@ namespace MediaPlayer.Client.ViewModels
       }
       this.ImagePath = myFiles[currentIndex];
       this.RaisePropertyChanged("CurrentImage");
+      args.Handled = true;
     }
 
     public override void AddTag(DirectoryItem item, string tag)

@@ -7,8 +7,8 @@
         Name="parentWindow">
 
   <Window.KeyBindings>
-    <KeyBinding Gesture="{Binding PrevKey}" Command="{Binding Prev}"/>
-    <KeyBinding Gesture="{Binding NextKey}" Command="{Binding Next}"/>
+    <KeyBinding Gesture="{Binding PrevKey}" Command="{Binding PrevEventHandler}"/>
+    <KeyBinding Gesture="{Binding NextKey}" Command="{Binding NextEventHandler}"/>
     <KeyBinding Gesture="{Binding BackKey}" Command="{Binding BackEventHandler}"/>
     <KeyBinding Gesture="{Binding ConfirmKey}" Command="{Binding ConfirmEventHandler}"/>
     <KeyBinding Gesture="{Binding SearchKey}" Command="{Binding SearchEventHandler}"/>

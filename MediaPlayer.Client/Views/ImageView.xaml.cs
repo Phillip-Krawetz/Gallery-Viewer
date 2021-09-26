@@ -38,6 +38,7 @@ namespace MediaPlayer.Client.Views
       {
         tagList.Width = 100;
       }
+      InitializeTextBindings();
     }
 
     private void InitializeComponent()
