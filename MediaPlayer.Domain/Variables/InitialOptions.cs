@@ -23,6 +23,8 @@ namespace MediaPlayer.Domain.Variables
 
     public KeyGesture ConfirmKey {get; set; }
 
+    public KeyGesture SearchKey {get; set; }
+
     public static List<PropertyInfo> Properties
     {
       get => typeof(InitialOptions).GetProperties().ToList();
@@ -38,6 +40,7 @@ namespace MediaPlayer.Domain.Variables
       PrevKey = new KeyGesture(Key.Left, KeyModifiers.None);
       BackKey = new KeyGesture(Key.Left, KeyModifiers.Control);
       ConfirmKey = new KeyGesture(Key.Enter, KeyModifiers.None);
+      SearchKey = new KeyGesture(Key.F, KeyModifiers.Control);
     }
 
     public InitialOptions(){}

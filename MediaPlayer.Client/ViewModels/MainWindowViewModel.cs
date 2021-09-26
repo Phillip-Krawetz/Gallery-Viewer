@@ -42,5 +42,10 @@ namespace MediaPlayer.Client.ViewModels
     {
       this.content.ConfirmEventHandler();
     }
+
+    public override void SearchEventHandler()
+    {
+      this.content.SearchEventHandler();
+    }
   }
 }

@@ -11,6 +11,7 @@
     <KeyBinding Gesture="{Binding NextKey}" Command="{Binding Next}"/>
     <KeyBinding Gesture="{Binding BackKey}" Command="{Binding BackEventHandler}"/>
     <KeyBinding Gesture="{Binding ConfirmKey}" Command="{Binding ConfirmEventHandler}"/>
+    <KeyBinding Gesture="{Binding SearchKey}" Command="{Binding SearchEventHandler}"/>
   </Window.KeyBindings>
   <Grid RowDefinitions="Auto,*">
     <WrapPanel Name="MenuBar" Grid.Row="0" PointerEnter="OpenMenuBar" PointerLeave="CloseMenuBar" Height="10">

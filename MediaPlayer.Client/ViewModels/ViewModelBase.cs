@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using Avalonia.Interactivity;
 using MediaPlayer.Domain.Variables;
 using ReactiveUI;
 
@@ -26,6 +27,11 @@ namespace MediaPlayer.Client.ViewModels
       get => Options.ConfirmKey;
     }
 
+    public KeyGesture SearchKey
+    {
+      get => Options.SearchKey;
+    }
+
     public virtual void Next(){}
     public virtual void Prev(){}
 
@@ -42,6 +48,14 @@ namespace MediaPlayer.Client.ViewModels
     public virtual void ConfirmEventHandler()
     {
       ConfirmEvent?.Invoke();
+    }
+
+    public delegate void Search();
+    public event Search SearchEvent;
+    public Search searchPress;
+    public virtual void SearchEventHandler()
+    {
+      SearchEvent?.Invoke();
     }
   }
 }

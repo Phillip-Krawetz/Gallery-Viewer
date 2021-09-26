@@ -19,5 +19,7 @@ namespace MediaPlayer.Domain.Variables
     public static KeyGesture BackKey {get; set; }
 
     public static KeyGesture ConfirmKey {get; set; }
+
+    public static KeyGesture SearchKey {get; set; }
   }
 }
