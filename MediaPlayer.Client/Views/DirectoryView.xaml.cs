@@ -207,7 +207,13 @@ namespace MediaPlayer.Client.Views
     private void SelectRandom()
     {
       var dc = this.DataContext as DirectoryViewModel;
-      var selection = dc.Items[NumberUtils.Rand.Next(dc.Items.Count)];
+      var randSel = NumberUtils.Rand.Next(dc.Items.Count);
+      var selection = dc.Items[randSel];
+      if(randSel != dc.Items.Count)
+      {
+        randSel++;
+      }
+      lastObject = dc.Items[randSel];
       OpenDirectory(selection);
     }
 
