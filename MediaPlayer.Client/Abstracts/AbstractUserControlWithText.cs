@@ -22,6 +22,7 @@ namespace MediaPlayer.Client.Abstracts
       }
       dc.NextEvent += TextRight;
       dc.PrevEvent += TextLeft;
+      SetSearchKey();
     }
     protected void TextRight(RoutedEventArgs args)
     {
@@ -42,6 +43,26 @@ namespace MediaPlayer.Client.Abstracts
         f.CaretIndex--;
         args.Handled = true;
       }
+    }
+
+    protected string SearchControl;
+
+    protected void SetSearchKey()
+    {
+      var dc = this.DataContext as AbstractViewModelBaseWithText;
+      if(dc == null)
+      {
+        return;
+      }
+      dc.SearchEvent += delegate
+      {
+        var text = this.FindControl<Control>(SearchControl);
+        text.Focus();
+        if(text is TextBox box)
+        {
+          box.CaretIndex = dc.searchText.Length;
+        }
+      };
     }
   }
 }

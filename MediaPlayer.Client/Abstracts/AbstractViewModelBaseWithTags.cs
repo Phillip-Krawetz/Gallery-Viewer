@@ -8,7 +8,7 @@ using MediaPlayer.Storing.Repositories;
 
 namespace MediaPlayer.Client.Abstracts
 {
-  public abstract class AbstractViewModelBaseWithTags : ViewModelBase
+  public abstract class AbstractViewModelBaseWithTags : AbstractViewModelBaseWithText
   {
     protected TagRepository tagRepo = new TagRepository();
 

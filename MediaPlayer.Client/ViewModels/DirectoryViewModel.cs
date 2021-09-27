@@ -60,15 +60,6 @@ namespace MediaPlayer.Client.ViewModels
       get => filters;
       set => this.RaiseAndSetIfChanged(ref filters, value);
     }
-    
-    private string searchtext;
-    public string searchText
-    { 
-      get{
-        return searchtext ?? "";
-      }
-      set => this.searchtext = value;
-    }
 
     public string CurrentDirectory { get; set; }
 

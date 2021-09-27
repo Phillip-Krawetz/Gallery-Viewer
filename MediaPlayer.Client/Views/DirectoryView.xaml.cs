@@ -33,23 +33,8 @@ namespace MediaPlayer.Client.Views
       {
         this.SelectRandom();
       };
-      this.DataContextChanged += SetSearchKey;
+      SearchControl = "SearchBox";
       InitializeTextBindings();
-    }
-
-    private void SetSearchKey(object sender, System.EventArgs args)
-    {
-      var dc = this.DataContext as DirectoryViewModel;
-      if(dc == null)
-      {
-        return;
-      }
-      dc.SearchEvent += delegate
-      {
-        var text = this.FindControl<TextBox>("SearchBox");
-        text.Focus();
-        text.CaretIndex = dc.searchText.Length;
-      };
     }
 
     private void InitializeComponent()
