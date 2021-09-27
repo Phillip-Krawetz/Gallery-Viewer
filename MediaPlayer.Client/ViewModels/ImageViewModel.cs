@@ -149,7 +149,7 @@ namespace MediaPlayer.Client.ViewModels
     public void PrevImage(RoutedEventArgs args)
     {
       var focus = FocusManager.Instance.Current;
-      if(focus is TextBox)
+      if(focus is TextBox box && box.CaretIndex > 0)
       {
         return;
       }
@@ -165,7 +165,7 @@ namespace MediaPlayer.Client.ViewModels
     public void NextImage(RoutedEventArgs args)
     {
       var focus = FocusManager.Instance.Current;
-      if(focus is TextBox)
+      if(focus is TextBox box && box.CaretIndex < box.Text.Length - 1)
       {
         return;
       }
